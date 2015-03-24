@@ -1,5 +1,6 @@
 def parse(filepath):
-	type_nums = ["pos_x", "pos_y", "size", "col_r", "col_g", "col_b", "col_a"]
+	# keywords to convert to integers
+	type_nums = ["pos_x", "pos_y", "size_w", "size_h", "font_s", "alpha"]
 
 	datalist = []
 	in_item = False
