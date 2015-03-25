@@ -18,3 +18,6 @@ def main(argv):
 
 if __name__ == "__main__":
 	main(sys.argv)
+
+# to do: close windows individually instead of all at once with escape button
+# make sure to do gtk.main_quit() so everything actually closes though

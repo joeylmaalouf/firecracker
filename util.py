@@ -18,10 +18,15 @@ class FCWindow(object):
 		self.window.move(item.x, item.y)
 		self.window.set_title(item.title)
 		self.window.set_opacity(item.alpha)
+		self.window.connect("key_press_event", self.key_press)
 
 		self.window.add(self.label)
 		self.window.show_all()
+		self.window.get_window().set_decorations(gtk.gdk.DECOR_BORDER)
 
+	def key_press(self, widget, event):
+		if gtk.gdk.keyval_name(event.keyval) == "Escape":
+			gtk.main_quit()
 
 class FCItem(object):
 	""" The FireCracker Item object, representing
