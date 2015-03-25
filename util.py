@@ -4,7 +4,7 @@ import gtk
 
 
 class FCWindow(object):
-	""" The FireCracker Window object, representing
+	""" The Firecracker Window object, representing
 		a user-created customizable display.
 	"""
 	def __init__(self, item):
@@ -29,7 +29,7 @@ class FCWindow(object):
 			gtk.main_quit()
 
 class FCItem(object):
-	""" The FireCracker Item object, representing
+	""" The Firecracker Item object, representing
 		the custom data format used for storing data
 		read in from configuration files.
 	"""
