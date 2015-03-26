@@ -1,4 +1,5 @@
-from util import FCWindow, FCItem, parse
+from cfg_parser import FCItem, parse
+from widgets import FCWindow
 
 import pygtk
 pygtk.require("2.0")
