@@ -15,8 +15,6 @@ def main(argv):
 
 	config_list = parse(argv[1])
 	for item in config_list:
-		print(item)
-		print("")
 		FCWindow(item)
 	gtk.main()
 
