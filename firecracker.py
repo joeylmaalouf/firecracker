@@ -15,6 +15,8 @@ def main(argv):
 
 	config_list = parse(argv[1])
 	for item in config_list:
+		print(item)
+		print("")
 		FCWindow(item)
 	gtk.main()
 
@@ -24,3 +26,4 @@ if __name__ == "__main__":
 
 # to do: close windows individually instead of all at once with escape button
 # make sure to do gtk.main_quit() after the last one so everything actually closes though
+# also, enable movement with click and drag anywhere on the window

@@ -28,6 +28,7 @@ class FCWindow(object):
 		if gtk.gdk.keyval_name(event.keyval) == "Escape":
 			gtk.main_quit()
 
+
 class FCItem(object):
 	""" The Firecracker Item object, representing
 		the custom data format used for storing data
@@ -43,6 +44,15 @@ class FCItem(object):
 		self.text = ""
 		self.text_color = "#FFFFFF"
 		self.text_size = 16
+
+	def __str__(self):
+		return ("Title: "+self.title+"\n"+
+		"Position: "+str(self.x)+", "+str(self.y)+"\n"+
+		"Size: "+str(self.w)+", "+str(self.h)+"\n"+
+		"Transparency: "+str(self.alpha)+"\n"+
+		"Text: "+self.text+"\n"+
+		"Text Color: "+self.text_color+"\n"+
+		"Text Size: "+str(self.text_size))
 
 
 def parse(filepath):
