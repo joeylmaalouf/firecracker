@@ -23,6 +23,7 @@ class FCWindow(object):
 		self.window.move(item.x, item.y)
 		self.window.set_title(item.title)
 		self.window.set_opacity(item.alpha)
+		self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_DESKTOP)
 
 		screen = self.window.get_screen()
 		rgba = screen.get_rgba_colormap()
