@@ -1,11 +1,13 @@
 # firecracker
 
+[View the website here.](http://joeylmaalouf.github.io/firecracker/)
+
 
 ### What is it?
 
 Rainmeter for Ubuntu, done in Python.
 
-Just like Rainmeter, Firecracker windows are fully customizable through editing of configuration files.
+Firecracker is a fanmade rewrite of Rainmeter for Ubuntu. Just like Rainmeter, Firecracker windows are fully customizable through editing of configuration files, giving users the ability to tweak and edit their windows to their liking.
 
 
 ### Why?
