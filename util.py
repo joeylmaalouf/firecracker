@@ -37,7 +37,8 @@ class FCWindow(object):
 
 	def update_time(self):
 		time = datetime.now().time()
-		self.label.set_label("{0:02d}:{1:02d}:{2:02d}".format(time.hour, time.minute, time.second))
+		time_string = "{0:02d}:{1:02d}:{2:02d}".format(time.hour, time.minute, time.second)
+		self.label.set_markup("<span size='"+str(self.vals.text_size*1000)+"'>"+time_string+"</span>")
 		return True
 
 	def key_press(self, widget, event):
