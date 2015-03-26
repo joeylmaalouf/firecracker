@@ -2,12 +2,17 @@ import pygtk
 pygtk.require("2.0")
 import gtk
 
+import cairo
+from datetime import datetime
+
 
 class FCWindow(object):
 	""" The Firecracker Window object, representing
 		a user-created customizable display.
 	"""
 	def __init__(self, item):
+		self.vals = item
+
 		self.label = gtk.Label(item.text)
 		self.label.set_markup("<span size='"+str(item.text_size*1000)+"'>"+item.text+"</span>")
 		self.label.set_justify(gtk.JUSTIFY_CENTER)
@@ -18,15 +23,34 @@ class FCWindow(object):
 		self.window.move(item.x, item.y)
 		self.window.set_title(item.title)
 		self.window.set_opacity(item.alpha)
+
+		screen = self.window.get_screen()
+		rgba = screen.get_rgba_colormap()
+		self.window.set_colormap(rgba)
+		self.window.set_app_paintable(True)
+		self.window.connect("expose-event", self.transparent_expose)
 		self.window.connect("key_press_event", self.key_press)
 
 		self.window.add(self.label)
+		self.window.set_decorated(False)
 		self.window.show_all()
-		self.window.get_window().set_decorations(gtk.gdk.DECOR_BORDER)
+
+	def update_time(self):
+		time = datetime.now().time()
+		self.label.set_label("{0:02d}:{1:02d}:{2:02d}".format(time.hour, time.minute, time.second))
+		return True
 
 	def key_press(self, widget, event):
 		if gtk.gdk.keyval_name(event.keyval) == "Escape":
 			gtk.main_quit()
+
+	def transparent_expose(self, widget, event):
+		cr = widget.window.cairo_create()
+		cr.set_operator(cairo.OPERATOR_CLEAR)
+		region = gtk.gdk.region_rectangle(event.area)
+		cr.region(region)
+		cr.fill()
+		return False
 
 
 class FCItem(object):
@@ -44,6 +68,7 @@ class FCItem(object):
 		self.text = ""
 		self.text_color = "#FFFFFF"
 		self.text_size = 16
+		self.clock = False
 
 	def __str__(self):
 		return ("Title: "+self.title+"\n"+
@@ -52,7 +77,8 @@ class FCItem(object):
 		"Transparency: "+str(self.alpha)+"\n"+
 		"Text: "+self.text+"\n"+
 		"Text Color: "+self.text_color+"\n"+
-		"Text Size: "+str(self.text_size))
+		"Text Size: "+str(self.text_size)+"\n"+
+		"Clock: "+str(self.clock))
 
 
 def parse(filepath):
@@ -95,6 +121,8 @@ def parse(filepath):
 				item.text_size = int(val)
 			elif key == "font_color":
 				item.text_color = "#"+val
+			elif key == "clock" and val.lower() == "true":
+				item.clock = True
 
 	fileobj.close()
 	return datalist

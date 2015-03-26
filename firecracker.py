@@ -1,9 +1,10 @@
 from util import FCWindow, FCItem, parse
 
-import sys
 import pygtk
 pygtk.require("2.0")
 import gtk
+
+import sys
 
 
 def main(argv):
@@ -14,8 +15,10 @@ def main(argv):
 		print("    python2 "+argv[0].split("/")[-1]+" <config file>\n")
 
 	config_list = parse(argv[1])
-	for item in config_list:
-		FCWindow(item)
+	windows = [FCWindow(item) for item in config_list]
+	for window in windows:
+		if window.vals.clock:
+			gtk.timeout_add(1000, window.update_time)
 	gtk.main()
 
 
