@@ -23,21 +23,6 @@ Pyglet
 `sudo pip2 install pyglet`
 
 
-GLUT (OpenGL Utility Toolkit), and all the variations thereof.
-
-```
-sudo apt-get install ...
-... freeglut3
-... freeglut3-dev
-... libglew1.5
-... libglew1.5-dev
-... libglu1-mesa
-... libglu1-mesa-dev
-... libgl1-mesa-glx
-... libgl1-mesa-dev
-```
-
-
 ### How To Use It
 
 `python2 firecracker.py <config file>`
