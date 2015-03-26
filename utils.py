@@ -14,7 +14,7 @@ class FCWindow(object):
 		self.vals = item
 
 		self.label = gtk.Label(item.text)
-		self.label.set_markup("<span size='"+str(item.text_size*1000)+"'>"+item.text+"</span>")
+		self.label.set_markup("<span face='"+item.font+"' size='"+str(item.text_size*1000)+"'>"+item.text+"</span>")
 		self.label.set_justify(gtk.JUSTIFY_CENTER)
 		self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(item.text_color))
 
@@ -71,6 +71,7 @@ class FCItem(object):
 		self.text = ""
 		self.text_color = "#FFFFFF"
 		self.text_size = 16
+		self.font = "Helvetica"
 		self.update_timer = 1000
 		self.clock = False
 
@@ -82,6 +83,7 @@ class FCItem(object):
 		"Text: "+self.text+"\n"+
 		"Text Color: "+self.text_color+"\n"+
 		"Text Size: "+str(self.text_size)+"\n"+
+		"Font: "+self.font+"\n"+
 		"Clock: "+str(self.clock)+"\n"+
 		"Update timer: "+str(self.update_timer))
 
@@ -126,6 +128,8 @@ def parse(filepath):
 				item.text_size = int(val)
 			elif key == "font_color":
 				item.text_color = "#"+val
+			elif key == "font":
+				item.font = val
 			elif key == "clock" and val.lower() == "true":
 				item.clock = True
 			elif key == "update":
