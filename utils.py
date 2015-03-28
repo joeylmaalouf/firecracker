@@ -24,6 +24,7 @@ class FCWindow(object):
 		self.window.set_title(item.title)
 		self.window.set_opacity(item.alpha)
 		self.window.set_keep_below(True)
+		self.window.set_icon_from_file('logo2.png')
 
 		screen = self.window.get_screen()
 		rgba = screen.get_rgba_colormap()
@@ -74,6 +75,7 @@ class FCItem(object):
 		self.font = "Helvetica"
 		self.update_timer = 1000
 		self.clock = False
+
 
 	def __str__(self):
 		return ("Title: "+self.title+"\n"+
