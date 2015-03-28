@@ -24,7 +24,7 @@ class FCWindow(object):
 		self.window.set_title(item.title)
 		self.window.set_opacity(item.alpha)
 		self.window.set_keep_below(True)
-		self.window.set_icon_from_file('logo2.png')
+		self.window.set_icon_from_file('logo.png')
 
 		screen = self.window.get_screen()
 		rgba = screen.get_rgba_colormap()
