@@ -29,7 +29,7 @@ class FCWindow(object):
 		self.window.move(item.x, item.y)
 		self.window.set_title(item.title)
 		self.window.set_opacity(item.alpha)
-		self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_DOCK)
+		# self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_DOCK)  # uncomment this to get the taskbar icon back
 		self.window.set_keep_below(True)
 		self.window.set_icon_from_file("images/logo.png")
 		self.window.stick()
