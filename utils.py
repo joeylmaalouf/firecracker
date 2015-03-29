@@ -106,7 +106,7 @@ def parse(filepath):
 		
 		elif line[0] == "<":
 			in_item = True
-			item = FCItem(line[1:].strip())
+			item = FCItem('FireCracker')
 		
 		elif line[0] == ">":
 			datalist.append(item)
