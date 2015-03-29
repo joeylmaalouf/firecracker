@@ -14,9 +14,16 @@ class FCWindow(object):
 		self.vals = item
 
 		self.label = gtk.Label(item.text)
-		self.label.set_markup("<span face='"+item.font+"' size='"+str(item.text_size*1000)+"'>"+item.text+"</span>")
+		self.label.set_markup("<span face='"+item.font+"' size='"+str(item.text_size*1000)+"'>"+str(item.text)+"</span>")
 		self.label.set_justify(gtk.JUSTIFY_CENTER)
 		self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(item.text_color))
+
+
+		# file_name = "images/logoWeb.png"
+		# pixbuf = gtk.gdk.pixbuf_new_from_file(file_name)
+		# pixmap, mask = pixbuf.render_pixmap_and_mask()
+		# self.image = gtk.Image()
+		# self.image.set_from_pixmap(pixmap, mask)
 
 		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
 		self.window.resize(item.w, item.h)
@@ -24,7 +31,7 @@ class FCWindow(object):
 		self.window.set_title(item.title)
 		self.window.set_opacity(item.alpha)
 		self.window.set_keep_below(True)
-		self.window.set_icon_from_file('logo.png')
+		self.window.set_icon_from_file('images/logo.png')
 
 		screen = self.window.get_screen()
 		rgba = screen.get_rgba_colormap()
@@ -33,6 +40,7 @@ class FCWindow(object):
 		self.window.connect("expose-event", self.transparent_expose)
 		self.window.connect("key_press_event", self.key_press)
 
+		#self.window.add(self.image)
 		self.window.add(self.label)
 		self.window.set_decorated(False)
 		self.window.show_all()
