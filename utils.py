@@ -18,7 +18,6 @@ class FCWindow(object):
 		self.label.set_justify(gtk.JUSTIFY_CENTER)
 		self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(item.text_color))
 
-
 		# file_name = "images/logoWeb.png"
 		# pixbuf = gtk.gdk.pixbuf_new_from_file(file_name)
 		# pixmap, mask = pixbuf.render_pixmap_and_mask()
@@ -30,8 +29,10 @@ class FCWindow(object):
 		self.window.move(item.x, item.y)
 		self.window.set_title(item.title)
 		self.window.set_opacity(item.alpha)
+		self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_DOCK)
 		self.window.set_keep_below(True)
-		self.window.set_icon_from_file('images/logo.png')
+		self.window.set_icon_from_file("images/logo.png")
+		self.window.stick()
 
 		screen = self.window.get_screen()
 		rgba = screen.get_rgba_colormap()

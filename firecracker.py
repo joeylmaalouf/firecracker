@@ -15,9 +15,9 @@ def main(argv):
 		print("You can use your own by typing")
 		print("    python2 "+argv[0].split("/skins/")[-1]+" <config file>\n")
 	elif len(argv) == 2:
-		argv[1] = './skins/' + argv[1] + '.cfg'
+		argv[1] = "./skins/" + argv[1] + ".cfg"
 	else:
-		print "FireCracker requires an input of exactly one skin"
+		print "Firecracker requires an input of exactly one skin"
 		return
 
 	config_list = parse(argv[1])
