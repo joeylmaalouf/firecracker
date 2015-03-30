@@ -27,11 +27,12 @@ Pyglet
 
 ### How To Use It
 
-Install: 
-1. clone GitHub repo to ~/Documents/FireCracker/
-2. run ~$ cd ~/Documents/Firecracker
-3. run ~$ sudo ./install.sh
-4. restart computer
+Install:
+
+1.  clone this GitHub repo to some location .../firecracker
+2.  $ cd .../firecracker
+3.  $ sudo ./install.sh
+4.  restart computer
 
 `python2 firecracker.py <config file>`
 
