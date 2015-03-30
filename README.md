@@ -29,9 +29,9 @@ Pyglet
 
 Install:
 
-1.  clone this GitHub repo to some location .../firecracker
-2.  $ cd .../firecracker
-3.  $ sudo ./install.sh
+1.  clone this repo to some location '.../firecracker'
+2.  '$ cd .../firecracker'
+3.  '$ sudo ./install.sh'
 4.  restart computer
 
 `python2 firecracker.py <config file>`
