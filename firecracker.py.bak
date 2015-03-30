@@ -1,9 +1,12 @@
+import cairo
+from datetime import datetime
+from multiprocessing import Process, Value
+# from utils import FCWindow, FCItem, parse
+import sys
+
 import pygtk
 pygtk.require("2.0")
 import gtk
-
-import cairo
-from datetime import datetime
 
 
 class FCWindow(object):
@@ -57,13 +60,9 @@ class FCWindow(object):
 		if gtk.gdk.keyval_name(event.keyval) == "Escape":
 			self.window.destroy()
 			print("Closed currently selected window.")
-
-	def window_pressed(self,window,event):
-		""" Runs when widget is selected
-			Currently does nothing
-		"""
-		assert event.type == gtk.gdk.BUTTON_PRESS
-		pass
+			global num_windows
+			num_windows.value -= 1
+			print(num_windows.value)
 
 	def transparent_expose(self, widget, event):
 		cr = widget.window.cairo_create()
@@ -123,7 +122,7 @@ def parse(filepath):
 		
 		elif line[0] == "<":
 			in_item = True
-			item = FCItem("Firecracker")
+			item = FCItem('FireCracker')
 		
 		elif line[0] == ">":
 			datalist.append(item)
@@ -156,3 +155,45 @@ def parse(filepath):
 
 	fileobj.close()
 	return datalist
+
+
+def check_done():
+	while True:
+		global num_windows
+		if num_windows == 0:
+			gtk.main_quit()
+			sys.exit()
+
+
+def main(argv):
+	if len(argv) == 1:
+		argv.append("./skins/example.cfg")
+		print("\nThis demo uses the provided example configuration.")
+		print("You can use your own by typing")
+		print("    python2 "+argv[0].split("/")[-1]+" <config file>\n")
+	else:
+		print("Firecracker requires an input of exactly one skin configuration file.")
+		return
+
+	config_list = parse(argv[1])
+	windows = [FCWindow(item) for item in config_list]
+	for window in windows:
+		gtk.timeout_add(window.vals.update_timer, window.update)
+
+	# run multiple processes concurrently to check for when to end everything
+	global num_windows
+	num_windows = Value("i", len(windows))
+	window_process = Process(target = gtk.main)
+	manager_process = Process(target = check_done)
+	window_process.start()
+	manager_process.start()
+	window_process.join()
+	manager_process.join()
+
+
+if __name__ == "__main__":
+	main(sys.argv)
+
+# to do:
+# enable movement with click and drag anywhere on the window
+# add text rotation angle to config files
