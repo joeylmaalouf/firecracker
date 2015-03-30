@@ -27,11 +27,15 @@ Pyglet
 
 ### How To Use It
 
-Install: 
-1. clone GitHub repo to ~/Documents/FireCracker/
-2. run ~$ cd ~/Documents/Firecracker
-3. run ~$ sudo ./install.sh
-4. restart computer
+In order to have Firecracker run on startup:
+
+1. clone this repo to some location `.../firecracker`
+2. `$ cd .../firecracker`
+3. put your configuration in `skins/example.cfg`
+4. `$ sudo ./install.sh`
+5. restart computer
+
+In order to run Firecracker manually:
 
 `python2 firecracker.py <config file>`
 
