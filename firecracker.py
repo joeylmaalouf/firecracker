@@ -12,9 +12,7 @@ def main(argv):
 		print("\nThis demo uses the provided example configuration.")
 		print("You can use your own by typing")
 		print("    python2 "+argv[0].split("/skins/")[-1]+" <config file>\n")
-#	 elif len(argv) == 2:  # I do think that it's better to just let the user specify the path,
-#		argv[1] = "./skins/"+argv[1]+".cfg"  # rather than force them to use the skins folder
-	else:
+	elif len(argv) > 2:
 		print("Firecracker requires an input of exactly one skin configuration file.")
 		return
 
