@@ -11,10 +11,10 @@ class FCManager(object):
 		which watches multiple FCWindows.
 	"""
 	def __init__(self):
-		self.watched_windows = []
+		self.num_windows = 0
 
 	def watch(self, window):
-		self.watched_windows.append(window)
+		self.num_windows += 1
 		window.watcher = self
 
 
@@ -24,6 +24,7 @@ class FCWindow(object):
 	"""
 	def __init__(self, item):
 		self.vals = item
+		self.watcher = None
 
 		self.label = gtk.Label(item.text)
 		self.label.set_markup("<span face='"+item.font+"' size='"+str(item.text_size*1000)+"'>"+str(item.text)+"</span>")
@@ -68,7 +69,9 @@ class FCWindow(object):
 	def key_press(self, widget, event):
 		if gtk.gdk.keyval_name(event.keyval) == "Escape":
 			self.window.destroy()
-			print("Closed currently selected window.")
+			self.watcher.num_windows -= 1
+			if self.watcher.num_windows == 0:
+				gtk.main_quit()
 
 	def window_pressed(self,window,event):
 		assert event.type == gtk.gdk.BUTTON_PRESS

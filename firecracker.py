@@ -13,7 +13,7 @@ def main(argv):
 		print("You can use your own by typing")
 		print("    python2 "+argv[0].split("/skins/")[-1]+" <config file>\n")
 	elif len(argv) == 2:
-		argv[1] == "./skins/"+argv[1]+".cfg"
+		argv[1] = "./skins/"+argv[1]+".cfg"
 	else:
 		print("Firecracker requires an input of exactly one skin configuration file.")
 		return
@@ -31,7 +31,6 @@ if __name__ == "__main__":
 	main(sys.argv)
 
 # to do:
-# make sure to do gtk.main_quit() after the last window closes so everything actually ends
-# also, enable movement with click and drag anywhere on the window
-# also, add text rotation angle to config files
+# enable movement with click and drag anywhere on the window
+# add text rotation angle to config files
 # maybe have meter type (TEXT, CLOCK, WEATHER, IMAGE, etc.) where ID was?
