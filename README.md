@@ -31,9 +31,9 @@ In order to have Firecracker run on startup:
 
 1. clone this repo to some location `.../firecracker`
 2. `$ cd .../firecracker`
-2. put your configuration in `skins/example.cfg`
-3. `$ sudo ./install.sh`
-4. restart computer
+3. put your configuration in `skins/example.cfg`
+4. `$ sudo ./install.sh`
+5. restart computer
 
 In order to run Firecracker manually:
 
