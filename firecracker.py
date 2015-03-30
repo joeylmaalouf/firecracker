@@ -1,11 +1,17 @@
-#!/usr/bin/python2.7
+from multiprocessing import Process, Value
 from utils import FCWindow, FCItem, parse
+import sys
 
 import pygtk
 pygtk.require("2.0")
 import gtk
 
-import sys
+
+def check_done(n):
+	while True:
+		if n == 0:
+			gtk.main_quit()
+			sys.exit()
 
 
 def main(argv):
@@ -13,24 +19,29 @@ def main(argv):
 		argv.append("./skins/example.cfg")
 		print("\nThis demo uses the provided example configuration.")
 		print("You can use your own by typing")
-		print("    python2 "+argv[0].split("/skins/")[-1]+" <config file>\n")
-	elif len(argv) == 2:
-		argv[1] = "./skins/" + argv[1] + ".cfg"
+		print("    python2 "+argv[0].split("/")[-1]+" <config file>\n")
 	else:
-		print "Firecracker requires an input of exactly one skin"
+		print("Firecracker requires an input of exactly one skin configuration file.")
 		return
 
 	config_list = parse(argv[1])
 	windows = [FCWindow(item) for item in config_list]
 	for window in windows:
 		gtk.timeout_add(window.vals.update_timer, window.update)
-	gtk.main()
+
+	# run multiple processes concurrently to check for when to end everything
+	num_windows = Value("i", len(windows))
+	window_process = Process(target = gtk.main)
+	manager_process = Process(target = check_done, args = (num_windows,))
+	window_process.start()
+	manager_process.start()
+	window_process.join()
+	manager_process.join()
 
 
 if __name__ == "__main__":
 	main(sys.argv)
 
-# to do: close windows individually instead of all at once with escape button
-# make sure to do gtk.main_quit() after the last one so everything actually closes though
-# also, enable movement with click and drag anywhere on the window
-# also, add text rotation and fonts to config files
+# to do:
+# enable movement with click and drag anywhere on the window
+# add text rotation angle to config files

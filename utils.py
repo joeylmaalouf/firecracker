@@ -29,7 +29,7 @@ class FCWindow(object):
 		self.window.move(item.x, item.y)
 		self.window.set_title(item.title)
 		self.window.set_opacity(item.alpha)
-		# self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_DOCK)  # uncomment this to get the taskbar icon back
+		# self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_DOCK)  # uncomment this to remove the taskbar icon
 		self.window.set_keep_below(True)
 		self.window.set_icon_from_file("images/logo.png")
 		self.window.stick()
@@ -41,7 +41,7 @@ class FCWindow(object):
 		self.window.connect("expose-event", self.transparent_expose)
 		self.window.connect("key_press_event", self.key_press)
 
-		#self.window.add(self.image)
+		# self.window.add(self.image)
 		self.window.add(self.label)
 		self.window.set_decorated(False)
 		self.window.show_all()
@@ -55,7 +55,8 @@ class FCWindow(object):
 
 	def key_press(self, widget, event):
 		if gtk.gdk.keyval_name(event.keyval) == "Escape":
-			gtk.main_quit()
+			self.window.destroy()
+			print("Closed currently selected window.")
 
 	def transparent_expose(self, widget, event):
 		cr = widget.window.cairo_create()
