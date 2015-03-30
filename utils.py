@@ -71,9 +71,6 @@ class FCWindow(object):
 			print("Closed currently selected window.")
 
 	def window_pressed(self,window,event):
-		""" Runs when widget is selected
-			Currently does nothing
-		"""
 		assert event.type == gtk.gdk.BUTTON_PRESS
 		pass
 
