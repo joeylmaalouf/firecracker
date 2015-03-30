@@ -58,6 +58,13 @@ class FCWindow(object):
 			self.window.destroy()
 			print("Closed currently selected window.")
 
+	def window_pressed(self,window,event):
+		""" Runs when widget is selected
+			Currently does nothing
+		"""
+		assert event.type == gtk.gdk.BUTTON_PRESS
+		pass
+
 	def transparent_expose(self, widget, event):
 		cr = widget.window.cairo_create()
 		cr.set_operator(cairo.OPERATOR_CLEAR)
