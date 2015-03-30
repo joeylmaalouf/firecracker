@@ -6,6 +6,18 @@ import cairo
 from datetime import datetime
 
 
+class FCManager(object):
+	""" The Firecracker Manager object,
+		which watches multiple FCWindows.
+	"""
+	def __init__(self):
+		self.watched_windows = []
+
+	def watch(self, window):
+		self.watched_windows.append(window)
+		window.watcher = self
+
+
 class FCWindow(object):
 	""" The Firecracker Window object, representing
 		a user-created customizable display.
