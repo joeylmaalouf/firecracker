@@ -55,11 +55,11 @@ class FCWindow(object):
 		self.window.connect("key_press_event", self.key_press)
 
 		self.box = gtk.EventBox()
+		self.box.set_visible_window(False)
 		self.box.connect('button_press_event',self.onclick)
-		self.box.set_app_paintable(True)
-		self.box.connect('expose-event', self.transparent_expose)
-
-
+		self.box.connect('button_release_event', self.onrelease)
+		self.box.connect('motion_notify_event', self.mousemove)
+		
 		# self.window.add(self.image)
 		self.window.add(self.box)
 		self.box.add(self.label)
@@ -83,17 +83,27 @@ class FCWindow(object):
 			if self.watcher.num_windows == 0:
 				gtk.main_quit()
 		elif gtk.gdk.keyval_name(event.keyval) == "Up":
-			y = y - 10
+			y = y - 5
 		elif gtk.gdk.keyval_name(event.keyval) == "Down":
-			y = y + 10
+			y = y + 5
 		elif gtk.gdk.keyval_name(event.keyval) == "Left":
-			x = x - 10
+			x = x - 5
 		elif gtk.gdk.keyval_name(event.keyval) == "Right":
-			x = x + 10
+			x = x + 5
 		self.window.move(x,y)
 
-	def onclick (self, box, event):
-		print event.x, event.y
+	def onclick (self, widget, event):
+		self.window.drag = True
+		self.drag_x = event.x
+		self.drag_y = event.y
+
+	def onrelease(self, widget, event):
+		self.window.drag = False
+
+	def mousemove(self, widget, event):
+		x,y = self.window.get_position()
+		self.window.move(x+int(event.x-self.drag_x),y+int(event.y-self.drag_y))
+		#self.x, self.y = self.layout.child_get(self.event_box,'x','y')
 
 	def transparent_expose(self, widget, event):
 		cr = widget.window.cairo_create()
@@ -113,8 +123,9 @@ class FCItem(object):
 		self.title = id_str
 		self.x = 0
 		self.y = 0
-		self.w = 400
-		self.h = 200
+		# IMPORTANT: if we make the default size below (1,1), then there are no errors and we can move the window anywhere
+		self.w = 1
+		self.h = 1
 		self.alpha = 1.0
 		self.text = ""
 		self.text_color = "#FFFFFF"
