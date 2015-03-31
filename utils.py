@@ -54,8 +54,15 @@ class FCWindow(object):
 		self.window.connect("expose-event", self.transparent_expose)
 		self.window.connect("key_press_event", self.key_press)
 
+		self.box = gtk.EventBox()
+		self.box.connect('button_press_event',self.onclick)
+		self.box.set_app_paintable(True)
+		self.box.connect('expose-event', self.transparent_expose)
+
+
 		# self.window.add(self.image)
-		self.window.add(self.label)
+		self.window.add(self.box)
+		self.box.add(self.label)
 		self.window.set_decorated(False)
 		self.window.show_all()
 
@@ -85,9 +92,8 @@ class FCWindow(object):
 			x = x + 10
 		self.window.move(x,y)
 
-	def window_pressed(self,window,event):
-		assert event.type == gtk.gdk.BUTTON_PRESS
-		pass
+	def onclick (self, box, event):
+		print event.x, event.y
 
 	def transparent_expose(self, widget, event):
 		cr = widget.window.cairo_create()
@@ -147,7 +153,7 @@ def parse(filepath):
 		
 		elif line[0] == "<":
 			in_item = True
-			item = FCItem(line[1:].strip())
+			item = FCItem('FireCracker') # FCItem(line[1:].strip())
 		
 		elif line[0] == ">":
 			datalist.append(item)
