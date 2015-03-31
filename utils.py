@@ -42,7 +42,7 @@ class FCWindow(object):
 		self.window.move(item.x, item.y)
 		self.window.set_title(item.title)
 		self.window.set_opacity(item.alpha)
-		# self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_DOCK)  # uncomment this to remove the taskbar icon
+		self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_DOCK)  # uncomment this to remove the taskbar icon
 		self.window.set_keep_below(True)
 		self.window.set_icon_from_file("images/logo.png")
 		self.window.stick()
@@ -67,11 +67,23 @@ class FCWindow(object):
 		return True
 
 	def key_press(self, widget, event):
+		# Get current position of window
+		x,y = self.window.get_position()
+
 		if gtk.gdk.keyval_name(event.keyval) == "Escape":
 			self.window.destroy()
 			self.watcher.num_windows -= 1
 			if self.watcher.num_windows == 0:
 				gtk.main_quit()
+		elif gtk.gdk.keyval_name(event.keyval) == "Up":
+			y = y - 10
+		elif gtk.gdk.keyval_name(event.keyval) == "Down":
+			y = y + 10
+		elif gtk.gdk.keyval_name(event.keyval) == "Left":
+			x = x - 10
+		elif gtk.gdk.keyval_name(event.keyval) == "Right":
+			x = x + 10
+		self.window.move(x,y)
 
 	def window_pressed(self,window,event):
 		assert event.type == gtk.gdk.BUTTON_PRESS
