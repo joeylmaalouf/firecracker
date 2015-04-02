@@ -29,5 +29,5 @@ def main(argv):
 if __name__ == "__main__":
 	main(sys.argv)
 
-# to do:
-# add text rotation angle to config files
+# todo:
+# config file generator

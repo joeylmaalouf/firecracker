@@ -29,6 +29,7 @@ class FCWindow(object):
 		self.watcher = None
 
 		self.label = gtk.Label(item.text)
+		self.label.set_angle(item.angle)
 		self.label.set_markup("<span face='"+item.font+"' size='"+str(item.text_size*1000)+"'>"+str(item.text)+"</span>")
 		self.label.set_justify(gtk.JUSTIFY_CENTER)
 		self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(item.text_color))
@@ -38,7 +39,7 @@ class FCWindow(object):
 		self.window.move(item.x, item.y)
 		self.window.set_title(item.title)
 		self.window.set_opacity(item.alpha)
-		self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_DOCK)  # uncomment this to remove the taskbar icon, comment this to add it back
+		self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_DOCK)  # uncomment this to remove the taskbar icon, comment to add it back
 		self.window.set_keep_below(True)
 		self.window.set_icon_from_file("images/logo.png")
 		self.window.stick()
@@ -122,7 +123,7 @@ class FCItem(object):
 		self.type = type_str
 		self.x = 0
 		self.y = 0
-		# IMPORTANT: if we make the default size below (1,1), then there are no errors and we can move the window anywhere
+		# IMPORTANT: if we make the default size (1, 1), then there are no errors and we can move the window anywhere
 		self.w = 1
 		self.h = 1
 		self.alpha = 1.0
@@ -130,6 +131,7 @@ class FCItem(object):
 		self.text_color = "#FFFFFF"
 		self.text_size = 16
 		self.font = "Helvetica"
+		self.angle = 0
 		self.update_timer = 1000
 		self.zip_code = "00000"
 
@@ -172,7 +174,8 @@ def parse(filepath):
 			in_item = False
 		
 		elif "=" in line and in_item:
-			key, val = [i.strip() for i in line.split("=", 1)]
+			(key, val) = [i.strip() for i in line.split("=", 1)]
+			key = key.lower()
 			if key == "text":
 				item.text = val
 			elif key == "pos_x":
@@ -191,6 +194,8 @@ def parse(filepath):
 				item.text_color = "#"+val
 			elif key == "font":
 				item.font = val
+			elif key == "angle":
+				item.angle = int(val)
 			elif key == "zip_code":
 				item.zip_code = str(val)
 			elif key == "update":
