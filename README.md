@@ -31,6 +31,10 @@ Pattern
 
 ### How To Use It
 
+In order to run Firecracker manually:
+
+`python2 firecracker.py <config file>`
+
 In order to have Firecracker run on startup:
 
 1. clone this repo to some location `.../firecracker`
@@ -38,10 +42,6 @@ In order to have Firecracker run on startup:
 3. put your configuration in `skins/example.cfg`
 4. `$ sudo ./install.sh`
 5. restart computer
-
-In order to run Firecracker manually:
-
-`python2 firecracker.py <config file>`
 
 
 ### Notes
