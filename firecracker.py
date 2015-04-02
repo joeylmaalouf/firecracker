@@ -30,6 +30,4 @@ if __name__ == "__main__":
 	main(sys.argv)
 
 # to do:
-# enable movement with click and drag anywhere on the window
 # add text rotation angle to config files
-# maybe have meter type (TEXT, CLOCK, WEATHER, IMAGE, etc.) where ID was?

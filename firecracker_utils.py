@@ -68,7 +68,10 @@ class FCWindow(object):
 			time_string = "{0:02d}:{1:02d}:{2:02d}".format(time.hour, time.minute, time.second)
 			self.label.set_markup("<span size='"+str(self.vals.text_size*1000)+"'>"+time_string+"</span>")
 		elif self.vals.type == "WEATHER":
-			weather_string = get_weather_string(self.vals.zip_code)
+			data = loads(URL("http://api.openweathermap.org/data/2.5/weather?zip="+self.vals.zip_code+",us").download())
+			status = data["weather"][0]["main"].lower()
+			temp = (float(data["main"]["temp"])-273.15)*9/5+32
+			weather_string =  "It is {0} outside, and\n{1:0.2f} degrees Fahrenheit.".format(status, temp)
 			self.label.set_markup("<span size='"+str(self.vals.text_size*1000)+"'>"+weather_string+"</span>")
 
 		return True
@@ -195,10 +198,3 @@ def parse(filepath):
 
 	fileobj.close()
 	return datalist
-
-
-def get_weather_string(zip_code):
-	data = loads(URL("http://api.openweathermap.org/data/2.5/weather?zip="+zip_code+",us").download())
-	status = data["weather"][0]["main"].lower()
-	temp = (float(data["main"]["temp"])-273.15)*9/5+32
-	return "It is {0} outside, and\n{1:0.2f} degrees Fahrenheit.".format(status, temp)
