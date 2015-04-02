@@ -56,6 +56,7 @@ class FCWindow(object):
 		self.box.connect("button_press_event", self.onclick)
 		self.box.connect("button_release_event", self.onrelease)
 		self.box.connect("motion_notify_event", self.mousemove)
+		self.box.set_events(gtk.gdk.EXPOSURE_MASK|gtk.gdk.BUTTON_PRESS_MASK)
 
 		self.window.add(self.box)
 		self.box.add(self.label)
@@ -96,9 +97,12 @@ class FCWindow(object):
 		self.window.move(x, y)
 
 	def onclick (self, widget, event):
-		self.window.drag = True
-		self.drag_x = event.x
-		self.drag_y = event.y
+		if event.type == gtk.gdk.BUTTON_PRESS:
+			self.window.drag = True
+			self.drag_x = event.x
+			self.drag_y = event.y
+		elif event.type == gtk.gdk._2BUTTON_PRESS:
+			print "double-click"
 
 	def onrelease(self, widget, event):
 		self.window.drag = False
