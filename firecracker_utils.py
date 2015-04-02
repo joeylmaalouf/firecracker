@@ -81,6 +81,7 @@ class FCWindow(object):
 		x, y = self.window.get_position()
 
 		if gtk.gdk.keyval_name(event.keyval) == "Escape":
+			self.write_config(self.vals)
 			self.window.destroy()
 			self.watcher.num_windows -= 1
 			if self.watcher.num_windows == 0:
@@ -111,6 +112,10 @@ class FCWindow(object):
 		cr.region(region)
 		cr.fill()
 		return False
+
+	def write_config(self, vals):
+		print vals
+		pass
 
 
 class FCItem(object):
@@ -159,7 +164,7 @@ def parse(filepath):
 	in_item = False
 	fileobj = open(filepath, "r")
 
-	for line in fileobj:
+	for i,line in enumerate(fileobj):
 		line = line.strip()
 		
 		if len(line) == 0:
