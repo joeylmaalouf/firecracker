@@ -4,6 +4,8 @@ import gtk
 
 import cairo
 from datetime import datetime
+import pywapi
+import string
 
 
 class FCManager(object):
@@ -59,12 +61,23 @@ class FCWindow(object):
 		self.box.connect('button_press_event',self.onclick)
 		self.box.connect('button_release_event', self.onrelease)
 		self.box.connect('motion_notify_event', self.mousemove)
-		
+
+
+		if item.zip_code != '00000':
+			weather_com_result = pywapi.get_weather_from_weather_com(item.zip_code)
+			condition = string.lower(weather_com_result['current_conditions']['text'])
+			temp = str((float(weather_com_result['current_conditions']['temperature'])) * 1.8 + 32 )
+			weather_string = "It is " + condition + " and " + temp + " F \n\n"
+			self.label.set_markup("<span size='"+str(self.vals.text_size*1000)+"'>"+weather_string+"</span>")
+
 		# self.window.add(self.image)
 		self.window.add(self.box)
 		self.box.add(self.label)
 		self.window.set_decorated(False)
 		self.window.show_all()
+
+
+
 
 	def update(self):
 		if self.vals.clock:
@@ -133,6 +146,7 @@ class FCItem(object):
 		self.font = "Helvetica"
 		self.update_timer = 1000
 		self.clock = False
+		self.zip_code = '00000'
 
 
 	def __str__(self):
@@ -145,7 +159,9 @@ class FCItem(object):
 		"Text Size: "+str(self.text_size)+"\n"+
 		"Font: "+self.font+"\n"+
 		"Clock: "+str(self.clock)+"\n"+
+		"Zip: "+str(self.zip_code)+"\n"+
 		"Update timer: "+str(self.update_timer))
+
 
 
 def parse(filepath):
@@ -190,6 +206,8 @@ def parse(filepath):
 				item.text_color = "#"+val
 			elif key == "font":
 				item.font = val
+			elif key == "zip_code":
+				item.zip_code = str(val)
 			elif key == "clock" and val.lower() == "true":
 				item.clock = True
 			elif key == "update":
