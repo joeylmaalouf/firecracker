@@ -58,8 +58,8 @@ class FCWindow(object):
 		self.box.connect("motion_notify_event", self.mousemove)
 		self.box.set_events(gtk.gdk.EXPOSURE_MASK|gtk.gdk.BUTTON_PRESS_MASK)
 
-		self.window.add(self.box)
 		self.box.add(self.label)
+		self.window.add(self.box)
 		self.window.set_decorated(False)
 		self.window.show_all()
 
