@@ -1,4 +1,4 @@
-from utils import FCManager, FCWindow, FCItem, parse
+from firecracker_utils import FCManager, FCWindow, FCItem, parse
 import sys
 
 import pygtk
@@ -22,6 +22,7 @@ def main(argv):
 	for window in windows:
 		manager.watch(window)
 		gtk.timeout_add(window.vals.update_timer, window.update)
+		window.update()
 	gtk.main()
 
 

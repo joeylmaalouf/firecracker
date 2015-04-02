@@ -24,6 +24,10 @@ Pyglet
 
 `sudo pip2 install pyglet`
 
+Pattern
+
+`sudo pip2 install pattern`
+
 
 ### How To Use It
 
