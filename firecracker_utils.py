@@ -72,9 +72,9 @@ class FCWindow(object):
 		elif self.vals.type == "WEATHER":
 			data = loads(URL("http://api.openweathermap.org/data/2.5/weather?zip="+self.vals.zip_code+",us").download())
 			status = data["weather"][0]["main"].lower()
-			status = {"":"", "":"", "":""}[status]
+			# status = {"clouds":"It's cloudy outside.", "clear":"It's clear outside.", "rain":"It's raining outside."}[status]
 			temp = (float(data["main"]["temp"])-273.15)*9/5+32
-			weather_string =  "Weather: {0}.\nTemperature: {1:0.2f} degrees Fahrenheit.".format(status, temp)
+			weather_string =  "Weather: {0}\nTemperature: {1:0.2f} degrees Fahrenheit.".format(status, temp)
 			self.label.set_markup("<span size='"+str(self.vals.text_size*1000)+"'>"+weather_string+"</span>")
 
 		return True
