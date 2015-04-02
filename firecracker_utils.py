@@ -84,7 +84,6 @@ class FCWindow(object):
 		x, y = self.window.get_position()
 
 		if gtk.gdk.keyval_name(event.keyval) == "Escape":
-			self.write_config()
 			self.window.destroy()
 			self.watcher.num_windows -= 1
 			if self.watcher.num_windows == 0:
@@ -118,10 +117,6 @@ class FCWindow(object):
 		cr.region(region)
 		cr.fill()
 		return False
-
-	def write_config(self):
-		print(self.vals)
-		pass
 
 
 class FCItem(object):
