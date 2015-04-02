@@ -57,8 +57,8 @@ class FCWindow(object):
 		self.box.connect("button_release_event", self.onrelease)
 		self.box.connect("motion_notify_event", self.mousemove)
 
-		self.window.add(self.box)
 		self.box.add(self.label)
+		self.window.add(self.box)
 		self.window.set_decorated(False)
 		self.window.show_all()
 
