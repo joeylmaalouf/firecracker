@@ -31,20 +31,25 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h2>
-<a id="what-is-it" class="anchor" href="#what-is-it" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is it?</h2>
+        <h1>
+<a id="firecracker" class="anchor" href="#firecracker" aria-hidden="true"><span class="octicon octicon-link"></span></a>firecracker</h1>
+
+<p><a href="http://joeylmaalouf.github.io/firecracker/">View the website here.</a></p>
+
+<h3>
+<a id="what-is-it" class="anchor" href="#what-is-it" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is it?</h3>
+
+<p>Rainmeter for Ubuntu, done in Python.</p>
 
 <p>Firecracker is a fanmade rewrite of Rainmeter for Ubuntu. Just like Rainmeter, Firecracker windows are fully customizable through editing of configuration files, giving users the ability to tweak and edit their windows to their liking.</p>
 
-<p><a href="https://github.com/joeylmaalouf/firecracker/raw/master/RainmeterProjectProposal.pdf">The project proposal can be found here.</a></p>
-
-<h2>
-<a id="why" class="anchor" href="#why" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why?</h2>
+<h3>
+<a id="why" class="anchor" href="#why" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why?</h3>
 
 <p>This is our final project for SoftDes Spring 2015 at Olin.</p>
 
-<h2>
-<a id="dependencies" class="anchor" href="#dependencies" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dependencies</h2>
+<h3>
+<a id="dependencies" class="anchor" href="#dependencies" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dependencies</h3>
 
 <p>PyGTK</p>
 
@@ -54,13 +59,31 @@
 
 <p><code>sudo pip2 install pyglet</code></p>
 
-<h2>
-<a id="how-to-use-it" class="anchor" href="#how-to-use-it" aria-hidden="true"><span class="octicon octicon-link"></span></a>How To Use It</h2>
+<p>Pattern</p>
+
+<p><code>sudo pip2 install pattern</code></p>
+
+<h3>
+<a id="how-to-use-it" class="anchor" href="#how-to-use-it" aria-hidden="true"><span class="octicon octicon-link"></span></a>How To Use It</h3>
+
+<p>In order to run Firecracker manually:</p>
 
 <p><code>python2 firecracker.py &lt;config file&gt;</code></p>
 
-<h2>
-<a id="notes" class="anchor" href="#notes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Notes</h2>
+<p>In order to have Firecracker run on startup:</p>
+
+<ol>
+<li>clone this repo to some location <code>.../firecracker</code>
+</li>
+<li><code>$ cd .../firecracker</code></li>
+<li>put your configuration in <code>skins/example.cfg</code>
+</li>
+<li><code>$ sudo ./install.sh</code></li>
+<li>restart computer</li>
+</ol>
+
+<h3>
+<a id="notes" class="anchor" href="#notes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Notes</h3>
 
 <p>If your system does not have both Python 2 and Python 3 installed, you should be able to use <code>pip</code> and <code>python</code> instead of <code>pip2</code> and <code>python2</code>.</p>
       </section>
