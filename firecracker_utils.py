@@ -68,9 +68,11 @@ class FCWindow(object):
 			time = datetime.now().time()
 			time_string = "{0:02d}:{1:02d}:{2:02d}".format(time.hour, time.minute, time.second)
 			self.label.set_markup("<span size='"+str(self.vals.text_size*1000)+"'>"+time_string+"</span>")
+
 		elif self.vals.type == "WEATHER":
 			data = loads(URL("http://api.openweathermap.org/data/2.5/weather?zip="+self.vals.zip_code+",us").download())
-			status = data["weather"][0]["description"].lower()
+			status = data["weather"][0]["main"].lower()
+			status = {"":"", "":"", "":""}[status]
 			temp = (float(data["main"]["temp"])-273.15)*9/5+32
 			weather_string =  "Weather: {0}.\nTemperature: {1:0.2f} degrees Fahrenheit.".format(status, temp)
 			self.label.set_markup("<span size='"+str(self.vals.text_size*1000)+"'>"+weather_string+"</span>")
@@ -81,7 +83,7 @@ class FCWindow(object):
 		x, y = self.window.get_position()
 
 		if gtk.gdk.keyval_name(event.keyval) == "Escape":
-			self.write_config(self.vals)
+			self.write_config()
 			self.window.destroy()
 			self.watcher.num_windows -= 1
 			if self.watcher.num_windows == 0:
@@ -113,8 +115,8 @@ class FCWindow(object):
 		cr.fill()
 		return False
 
-	def write_config(self, vals):
-		print vals
+	def write_config(self):
+		print(self.vals)
 		pass
 
 
@@ -124,8 +126,8 @@ class FCItem(object):
 		read in from configuration files.
 	"""
 	def __init__(self, type_str):
-		self.title = "Firecracker"
 		self.type = type_str
+		self.title = "Firecracker"
 		self.x = 0
 		self.y = 0
 		# IMPORTANT: if we make the default size (1, 1), then there are no errors and we can move the window anywhere
@@ -152,7 +154,7 @@ class FCItem(object):
 		"Text Size: "+str(self.text_size)+"\n"+
 		"Font: "+self.font+"\n"+
 		"Zip: "+str(self.zip_code)+"\n"+
-		"Update timer: "+str(self.update_timer))
+		"Update timer: "+str(self.update_timer))+"\n"
 
 
 
@@ -164,7 +166,7 @@ def parse(filepath):
 	in_item = False
 	fileobj = open(filepath, "r")
 
-	for i,line in enumerate(fileobj):
+	for i, line in enumerate(fileobj):
 		line = line.strip()
 		
 		if len(line) == 0:
@@ -185,8 +187,10 @@ def parse(filepath):
 				item.text = val
 			elif key == "pos_x":
 				item.x = int(val)
+				item.x_line = i
 			elif key == "pos_y":
 				item.y = int(val)
+				item.y_line = i
 			elif key == "size_w":
 				item.w = int(val)
 			elif key == "size_h":
