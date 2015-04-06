@@ -34,14 +34,10 @@ class MainWindow(gtk.Window):
 
 	def on_press(self, widget, data):
 		print(self.counter.get_value_as_int())
-		# define a new itemwindow class, and spawn n many of them? somehow combine all of those results?
-		# OR: just have this one window, and change the button to append the current properties to a config file
+		# just have this one window, and change the button to append the current properties to a config file
 		# (add file path as a field to fill), and clear the fields each time they press the button
 		# so they can fill in new values for the next item (make sure to display a label at the top telling them
 		# that the item has been successfully appended and that now they're doing a new item)
-		# BEST IDEA YET: have every .cfg hold 1 item, a skin is contained in 1 folder,
-		# also allows images to be in the same folder for easier distribution, use the second idea above
-		# and generate a new file in the given folder with a name 1 greater than the previous (0.cfg, 1.cfg, etc.)
 
 
 def main(argv):
