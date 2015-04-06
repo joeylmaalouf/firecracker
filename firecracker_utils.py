@@ -1,4 +1,5 @@
 import cairo
+import subprocess
 from datetime import datetime
 from json import loads
 from pattern.web import URL
@@ -65,7 +66,7 @@ class FCWindow(object):
 			self.box.add(self.image)
 		except:
 			self.box.add(self.label)
-			
+
 		self.window.add(self.box)
 		self.window.set_decorated(False)
 		self.window.show_all()
@@ -112,6 +113,8 @@ class FCWindow(object):
 			self.drag_y = event.y
 		elif event.type == gtk.gdk._2BUTTON_PRESS:
 			print "double-click"
+		if self.vals.type == "LINK":
+			subprocess.call([self.vals.process,self.vals.url])
 
 	def onrelease(self, widget, event):
 		self.window.drag = False
@@ -221,6 +224,10 @@ def parse(filepath):
 				item.image_w = int(val)
 			elif key == "image":
 				item.image = val
+			elif key == "process":
+				item.process = val
+			elif key == "url":
+				item.url = val
 			elif key == "update":
 				item.update_timer = int(val)
 
