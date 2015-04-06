@@ -73,7 +73,7 @@ update = 1000
 
 Add: image_type = square (sets image_h = image_w)
 
-<Icon-Link
+Icon-Link
 image = ./images/chrome.png
 link = google-chrome
 url = https://www.google.com
@@ -83,7 +83,6 @@ font_color = 115599
 font-size = 50
 image_w = 50
 image_h = 50
->
 
 
 fields can be in any order within items
