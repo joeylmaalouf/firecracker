@@ -58,7 +58,14 @@ class FCWindow(object):
 		self.box.connect("motion_notify_event", self.mousemove)
 		self.box.set_events(gtk.gdk.EXPOSURE_MASK|gtk.gdk.BUTTON_PRESS_MASK)
 
-		self.box.add(self.label)
+		try:
+			self.image = gtk.Image()
+			pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(item.image, width = item.image_w, height = item.image_h)
+			self.image.set_from_pixbuf(pixbuf)
+			self.box.add(self.image)
+		except:
+			self.box.add(self.label)
+			
 		self.window.add(self.box)
 		self.window.set_decorated(False)
 		self.window.show_all()
@@ -68,7 +75,7 @@ class FCWindow(object):
 		if self.vals.type == "CLOCK":
 			time = datetime.now().time()
 			time_string = "{0:02d}:{1:02d}:{2:02d}".format(time.hour, time.minute, time.second)
-			self.label.set_markup("<span size='"+str(self.vals.text_size*1000)+"'>"+time_string+"</span>")
+			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.text_size*1000)+"'>"+time_string+"</span>")
 
 		elif self.vals.type == "WEATHER":
 			data = loads(URL("http://api.openweathermap.org/data/2.5/weather?zip="+self.vals.zip_code+",us").download())
@@ -76,7 +83,10 @@ class FCWindow(object):
 			# status = {"clouds":"It's cloudy outside.", "clear":"It's clear outside.", "rain":"It's raining outside."}[status]
 			temp = (float(data["main"]["temp"])-273.15)*9/5+32
 			weather_string =  "Weather: {0}\nTemperature: {1:0.2f} degrees Fahrenheit.".format(status, temp)
-			self.label.set_markup("<span size='"+str(self.vals.text_size*1000)+"'>"+weather_string+"</span>")
+			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.text_size*1000)+"'>"+weather_string+"</span>")
+
+		elif self.vals.type == "IMAGE":
+			pass
 
 		return True
 
@@ -129,7 +139,6 @@ class FCItem(object):
 		self.title = "Firecracker"
 		self.x = 0
 		self.y = 0
-		# IMPORTANT: if we make the default size (1, 1), then there are no errors and we can move the window anywhere
 		self.w = 1
 		self.h = 1
 		self.alpha = 1.0
@@ -206,6 +215,12 @@ def parse(filepath):
 				item.angle = int(val)
 			elif key == "zip_code":
 				item.zip_code = str(val)
+			elif key == "image_h":
+				item.image_h = int(val)
+			elif key == "image_w":
+				item.image_w = int(val)
+			elif key == "image":
+				item.image = val
 			elif key == "update":
 				item.update_timer = int(val)
 
