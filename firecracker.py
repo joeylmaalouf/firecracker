@@ -32,3 +32,5 @@ if __name__ == "__main__":
 # todo:
 # config file generator
 # fix install.sh
+# application launcher items
+# image display items
