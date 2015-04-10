@@ -21,7 +21,7 @@ class MainWindow(gtk.Window):
 		self.form_type.set_active(0)
 
 		self.label_alpha = gtk.Label("Opacity:")
-		self.form_alpha = gtk.SpinButton(adjustment = gtk.Adjustment(0.5, 0.0, 1.0, 0.1, 0.1, 0.0), digits = 2)
+		self.form_alpha = gtk.SpinButton(adjustment = gtk.Adjustment(0.5, 0.0, 1.0, 0.01, 0.1, 0.0), digits = 2)
 
 		self.label_text = gtk.Label("Text:")
 		self.form_text = gtk.Entry()
@@ -32,7 +32,10 @@ class MainWindow(gtk.Window):
 		self.form_color.set_color(gtk.gdk.color_parse("#0000FFFF0000"))
 
 		self.label_size = gtk.Label("Text size:")
-		self.form_size = gtk.SpinButton(adjustment = gtk.Adjustment(12.0, 2.0, 128.0, 1.0, 1.0, 0.0), digits = 0)
+		self.form_size = gtk.SpinButton(adjustment = gtk.Adjustment(12.0, 2.0, 128.0, 1.0, 10.0, 0.0), digits = 0)
+
+		self.label_update = gtk.Label("Update timer:")
+		self.form_update = gtk.SpinButton(adjustment = gtk.Adjustment(1.0, 0.1, 60.0, 0.1, 1.0, 0.0), digits = 1)
 
 		self.button_go = gtk.Button("Go!")
 		self.button_go.connect("button_press_event", self.on_press)
@@ -52,8 +55,10 @@ class MainWindow(gtk.Window):
 		self.table.attach(self.form_color, 1, 2, 4, 5)
 		self.table.attach(self.label_size, 0, 1, 5, 6)
 		self.table.attach(self.form_size, 1, 2, 5, 6)
-		self.table.attach(self.button_go, 0, 2, 6, 7, xpadding = 40, ypadding = 25)
-		self.table.attach(self.button_quit, 0, 2, 7, 8, xpadding = 40, ypadding = 25)
+		self.table.attach(self.label_update, 0, 1, 6, 7)
+		self.table.attach(self.form_update, 1, 2, 6, 7)
+		self.table.attach(self.button_go, 0, 2, 7, 8, xpadding = 40, ypadding = 25)
+		self.table.attach(self.button_quit, 0, 2, 8, 9, xpadding = 40, ypadding = 25)
 		self.add(self.table)
 		self.show_all()
 
@@ -63,10 +68,11 @@ class MainWindow(gtk.Window):
 	def on_press(self, widget, data):
 		string = ""
 		string += "< "+self.form_type.get_active_text()+"\n"
-		string += "alpha      = "+str(int(100*self.form_alpha.get_value()))+"\n"
-		string += "text       = "+self.form_text.get_text()+"\n"
-		string += "font_color = "+self.form_color.get_color().to_string()+"\n"
-		string += "font_size  = "+str(self.form_size.get_value_as_int())+"\n"
+		string += "alpha        = "+str(int(100*self.form_alpha.get_value()))+"\n"
+		string += "text         = "+self.form_text.get_text()+"\n"
+		string += "font_color   = "+self.form_color.get_color().to_string()+"\n"
+		string += "font_size    = "+str(self.form_size.get_value_as_int())+"\n"
+		string += "update_timer = "+str(100*int(10*self.form_update.get_value()))+"\n"
 		string += ">"+"\n"
 		print(string)
 		# just have this one window, and change the button to append the current properties to a config file
