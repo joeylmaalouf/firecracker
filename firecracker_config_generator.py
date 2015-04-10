@@ -12,7 +12,7 @@ class MainWindow(gtk.Window):
 		self.set_size_request(400, 600)
 		self.set_position(gtk.WIN_POS_CENTER)
 
-		self.label_header = gtk.Label("Generate a widget!")
+		self.label_header = gtk.Label("Generate a Firecracker widget!")
 
 		self.label_type = gtk.Label("Widget type:")
 		self.form_type = gtk.combo_box_new_text()
@@ -20,10 +20,8 @@ class MainWindow(gtk.Window):
 			self.form_type.append_text(option)
 		self.form_type.set_active(0)
 
-		# get this to step properly
 		self.label_alpha = gtk.Label("Opacity:")
-		self.form_alpha = gtk.SpinButton()
-		#self.form_alpha.set_adjustment(gtk.Adjustment())
+		self.form_alpha = gtk.SpinButton(adjustment = gtk.Adjustment(0.5, 0.0, 1.0, 0.1, 0.1, 0.0), digits = 2)
 
 		self.label_text = gtk.Label("Text:")
 		self.form_text = gtk.Entry()
@@ -31,14 +29,18 @@ class MainWindow(gtk.Window):
 
 		self.label_color = gtk.Label("Text color:")
 		self.form_color = gtk.ColorButton()
-		self.form_color.set_color(gtk.gdk.color_parse("#0000FFFF0000"))	
+		self.form_color.set_color(gtk.gdk.color_parse("#0000FFFF0000"))
+
+		self.label_size = gtk.Label("Text size:")
+		self.form_size = gtk.SpinButton(adjustment = gtk.Adjustment(12.0, 2.0, 128.0, 1.0, 1.0, 0.0), digits = 0)
 
 		self.button_go = gtk.Button("Go!")
 		self.button_go.connect("button_press_event", self.on_press)
 
+		self.button_quit = gtk.Button("Exit")
+		self.button_quit.connect("button_press_event", gtk.main_quit)
+
 		self.table = gtk.Table()
-		self.table.set_row_spacings(50)
-		self.table.set_col_spacings(50)
 		self.table.attach(self.label_header, 0, 2, 0, 1)
 		self.table.attach(self.label_type, 0, 1, 1, 2)
 		self.table.attach(self.form_type, 1, 2, 1, 2)
@@ -48,7 +50,10 @@ class MainWindow(gtk.Window):
 		self.table.attach(self.form_text, 1, 2, 3, 4)
 		self.table.attach(self.label_color, 0, 1, 4, 5)
 		self.table.attach(self.form_color, 1, 2, 4, 5)
-		self.table.attach(self.button_go, 0, 2, 5, 6)
+		self.table.attach(self.label_size, 0, 1, 5, 6)
+		self.table.attach(self.form_size, 1, 2, 5, 6)
+		self.table.attach(self.button_go, 0, 2, 6, 7, xpadding = 40, ypadding = 25)
+		self.table.attach(self.button_quit, 0, 2, 7, 8, xpadding = 40, ypadding = 25)
 		self.add(self.table)
 		self.show_all()
 
@@ -57,8 +62,10 @@ class MainWindow(gtk.Window):
 
 	def on_press(self, widget, data):
 		print("Widget type: "+self.form_type.get_active_text())
+		print("Opacity: "+str(int(100*self.form_alpha.get_value()))+"%")
 		print("Text: "+self.form_text.get_text())
 		print("Text color: "+self.form_color.get_color().to_string())
+		print("Text size: "+str(self.form_size.get_value_as_int()))
 		# just have this one window, and change the button to append the current properties to a config file
 		# (add file path as a field to fill), and clear the fields each time they press the button
 		# so they can fill in new values for the next item (make sure to display a label at the top telling them
