@@ -195,11 +195,11 @@ def parse(filepath):
 			elif key == "size_h":
 				item.h = int(val)
 			elif key == "alpha":
-				item.alpha = int(val)/100.
+				item.alpha = int(val)/100.0
 			elif key == "font_size":
 				item.text_size = int(val)
 			elif key == "font_color":
-				item.text_color = "#"+val
+				item.text_color = val
 			elif key == "font":
 				item.font = val
 			elif key == "angle":

@@ -61,17 +61,19 @@ class MainWindow(gtk.Window):
 		gtk.main()
 
 	def on_press(self, widget, data):
-		print("Widget type: "+self.form_type.get_active_text())
-		print("Opacity: "+str(int(100*self.form_alpha.get_value()))+"%")
-		print("Text: "+self.form_text.get_text())
-		print("Text color: "+self.form_color.get_color().to_string())
-		print("Text size: "+str(self.form_size.get_value_as_int()))
+		string = ""
+		string += "< "+self.form_type.get_active_text()+"\n"
+		string += "alpha      = "+str(int(100*self.form_alpha.get_value()))+"\n"
+		string += "text       = "+self.form_text.get_text()+"\n"
+		string += "font_color = "+self.form_color.get_color().to_string()+"\n"
+		string += "font_size  = "+str(self.form_size.get_value_as_int())+"\n"
+		string += ">"+"\n"
+		print(string)
 		# just have this one window, and change the button to append the current properties to a config file
 		# (add file path as a field to fill), and clear the fields each time they press the button
 		# so they can fill in new values for the next item (make sure to display a label at the top telling them
 		# that the item has been successfully appended and that now they're doing a new item)
 		# e.g. "widget added successfully! you may now add another"
-		# also add a quit button below the go button
 
 
 def main(argv):
