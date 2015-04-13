@@ -74,7 +74,7 @@ class MainWindow(gtk.Window):
 		string += "font_size    = "+str(self.form_size.get_value_as_int())+"\n"
 		string += "update_timer = "+str(100*int(10*self.form_update.get_value()))+"\n"
 		string += ">"+"\n"
-		print(string)
+		print(string)  # change this to write to file
 		# just have this one window, and change the button to append the current properties to a config file
 		# (add file path as a field to fill), and clear the fields each time they press the button
 		# so they can fill in new values for the next item (make sure to display a label at the top telling them
