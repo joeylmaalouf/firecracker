@@ -149,27 +149,15 @@ class FCItem(object):
 		self.h = 1
 		self.alpha = 1.0
 		self.text = ""
-		self.text_color = "#FFFFFF"
 		self.text_size = 16
+		self.text_color = "#FFFFFF"
 		self.font = "Helvetica"
 		self.angle = 0
-		self.update_timer = 1000
 		self.zip_code = "00000"
-
-
-	def __str__(self):
-		return ("Title: "+self.title+"\n"+
-		"Type: "+str(self.type)+"\n"+
-		"Position: "+str(self.x)+", "+str(self.y)+"\n"+
-		"Size: "+str(self.w)+", "+str(self.h)+"\n"+
-		"Transparency: "+str(self.alpha)+"\n"+
-		"Text: "+self.text+"\n"+
-		"Text Color: "+self.text_color+"\n"+
-		"Text Size: "+str(self.text_size)+"\n"+
-		"Font: "+self.font+"\n"+
-		"Zip: "+str(self.zip_code)+"\n"+
-		"Update timer: "+str(self.update_timer))+"\n"
-
+		self.image = "./images/logo.png"
+		self.process = "firefox"
+		self.url = "www.google.com"
+		self.update_timer = 1000
 
 
 def parse(filepath):
@@ -210,21 +198,17 @@ def parse(filepath):
 			elif key == "size_h":
 				item.h = int(val)
 			elif key == "alpha":
-				item.alpha = int(val)/100.
+				item.alpha = int(val)/100.0
 			elif key == "font_size":
 				item.text_size = int(val)
 			elif key == "font_color":
-				item.text_color = "#"+val
+				item.text_color = val
 			elif key == "font":
 				item.font = val
 			elif key == "angle":
 				item.angle = int(val)
 			elif key == "zip_code":
 				item.zip_code = str(val)
-			elif key == "image_h":
-				item.image_h = int(val)
-			elif key == "image_w":
-				item.image_w = int(val)
 			elif key == "image":
 				item.image = val
 			elif key == "process":
