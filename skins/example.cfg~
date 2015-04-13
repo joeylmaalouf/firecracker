@@ -76,7 +76,7 @@ Add: image_type = square (sets image_h = image_w)
 <LINK
 image = ./images/chrome.png
 process = google-chrome
-url = https://www.images.google.com
+url = www.images.google.com
 text = Google
 text_pos = right
 font_color = 115599

@@ -114,7 +114,10 @@ class FCWindow(object):
 		elif event.type == gtk.gdk._2BUTTON_PRESS:
 			print "double-click"
 		if self.vals.type == "LINK":
-			subprocess.call([self.vals.process,self.vals.url])
+			try:
+				subprocess.call([self.vals.process,self.vals.url])
+			except:
+				subprocess.call(self.vals.process)
 
 	def onrelease(self, widget, event):
 		self.window.drag = False
