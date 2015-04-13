@@ -119,7 +119,7 @@ class FCWindow(object):
 			self.drag_x = event.x
 			self.drag_y = event.y
 		elif event.type == gtk.gdk._2BUTTON_PRESS:
-			if self.vals.type == "LINK":
+			if self.vals.link:
 				try:
 					subprocess.call([self.vals.process,self.vals.url])
 				except:
@@ -161,6 +161,7 @@ class FCItem(object):
 		self.font = "Helvetica"
 		self.angle = 0
 		self.zip_code = "00000"
+		self.link = False
 		self.update_timer = 1000
 
 
@@ -225,6 +226,8 @@ def parse(filepath):
 				item.url = val
 			elif key == "update":
 				item.update_timer = int(val)
+			elif key == "link":
+				item.link = bool(val)
 
 	fileobj.close()
 	return datalist
