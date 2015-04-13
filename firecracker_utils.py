@@ -3,6 +3,7 @@ import subprocess
 from datetime import datetime
 from json import loads
 from pattern.web import URL
+from firecracker_config_generator import MainWindow
 
 import pygtk
 pygtk.require("2.0")
@@ -61,9 +62,13 @@ class FCWindow(object):
 
 		try:
 			self.image = gtk.Image()
+			print "Image set"
 			pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(item.image, width = item.image_w, height = item.image_h)
+			print "Pixbuf set"
 			self.image.set_from_pixbuf(pixbuf)
+			print "Set from Pixbuf"
 			self.box.add(self.image)
+			print "Image added"
 		except:
 			self.box.add(self.label)
 
@@ -99,11 +104,17 @@ class FCWindow(object):
 			self.watcher.num_windows -= 1
 			if self.watcher.num_windows == 0:
 				gtk.main_quit()
-
-		elif gtk.gdk.keyval_name(event.keyval) == "Up":    y -= 5
-		elif gtk.gdk.keyval_name(event.keyval) == "Down":  y += 5
-		elif gtk.gdk.keyval_name(event.keyval) == "Left":  x -= 5
-		elif gtk.gdk.keyval_name(event.keyval) == "Right": x += 5
+		elif gtk.gdk.keyval_name(event.keyval) == "m":
+			if event.state & gtk.gdk.CONTROL_MASK:
+				MainWindow().main()
+		elif gtk.gdk.keyval_name(event.keyval) == "Up":
+			y -= 5
+		elif gtk.gdk.keyval_name(event.keyval) == "Down":
+			y += 5
+		elif gtk.gdk.keyval_name(event.keyval) == "Left":
+			x -= 5
+		elif gtk.gdk.keyval_name(event.keyval) == "Right":
+			x += 5
 		self.window.move(x, y)
 
 	def onclick (self, widget, event):
@@ -112,12 +123,12 @@ class FCWindow(object):
 			self.drag_x = event.x
 			self.drag_y = event.y
 		elif event.type == gtk.gdk._2BUTTON_PRESS:
-			print "double-click"
-		if self.vals.type == "LINK":
-			try:
-				subprocess.call([self.vals.process,self.vals.url])
-			except:
-				subprocess.call(self.vals.process)
+			if self.vals.type == "LINK":
+				try:
+					subprocess.call([self.vals.process,self.vals.url])
+				except:
+					subprocess.call(self.vals.process)
+		
 
 	def onrelease(self, widget, event):
 		self.window.drag = False
