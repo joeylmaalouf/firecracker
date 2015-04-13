@@ -62,13 +62,9 @@ class FCWindow(object):
 
 		try:
 			self.image = gtk.Image()
-			print "Image set"
 			pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(item.image, width = item.image_w, height = item.image_h)
-			print "Pixbuf set"
 			self.image.set_from_pixbuf(pixbuf)
-			print "Set from Pixbuf"
 			self.box.add(self.image)
-			print "Image added"
 		except:
 			self.box.add(self.label)
 
@@ -165,9 +161,6 @@ class FCItem(object):
 		self.font = "Helvetica"
 		self.angle = 0
 		self.zip_code = "00000"
-		self.image = "./images/logo.png"
-		self.process = "firefox"
-		self.url = "www.google.com"
 		self.update_timer = 1000
 
 
@@ -222,6 +215,10 @@ def parse(filepath):
 				item.zip_code = str(val)
 			elif key == "image":
 				item.image = val
+			elif key == "image_w":
+				item.image_w = int(val)
+			elif key == "image_h":
+				item.image_h = int(val)
 			elif key == "process":
 				item.process = val
 			elif key == "url":
