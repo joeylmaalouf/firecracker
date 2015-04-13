@@ -222,12 +222,12 @@ def parse(filepath):
 				item.image_h = int(val)
 			elif key == "process":
 				item.process = val
-			elif key == "url":
-				item.url = val
+			elif key == "args":
+				item.args = val
 			elif key == "update":
 				item.update_timer = int(val)
 			elif key == "link":
-				item.link = bool(val)
+				item.link = True if val.lower() == "true" else False
 
 	fileobj.close()
 	return datalist
