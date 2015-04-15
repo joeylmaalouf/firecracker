@@ -1,12 +1,14 @@
 import pygtk
 pygtk.require("2.0")
 import gtk
+from os.path import exists
 
 
 class MainWindow(gtk.Window):
 	def __init__(self):
 		super(MainWindow, self).__init__()
 		self.main = gtk.main
+		self.counter = 0
 
 		self.connect("destroy", gtk.main_quit)
 		self.set_size_request(500, 700)
@@ -15,11 +17,19 @@ class MainWindow(gtk.Window):
 		self.label_header = gtk.Label("Generate a Firecracker widget!\nYou can add as many as you like, one at a time.")
 		self.label_header.set_justify(gtk.JUSTIFY_CENTER)
 
+		self.label_path = gtk.Label("Configuration file path:")
+		self.form_path = gtk.Entry()
+		self.form_path.set_text("./skins/configuration.cfg")
+
 		self.label_type = gtk.Label("Widget type:")
 		self.form_type = gtk.combo_box_new_text()
 		for option in ["TEXT", "CLOCK", "WEATHER", "IMAGE"]:
 			self.form_type.append_text(option)
 		self.form_type.set_active(0)
+
+		self.label_pos = gtk.Label("Position")
+		self.form_pos_x = gtk.SpinButton(adjustment = gtk.Adjustment(200.0, 0.0, self.get_screen().get_width(), 1.0, 10.0, 0.0), digits = 0)
+		self.form_pos_y = gtk.SpinButton(adjustment = gtk.Adjustment(200.0, 0.0, self.get_screen().get_height(), 1.0, 10.0, 0.0), digits = 0)
 
 		self.label_alpha = gtk.Label("Opacity:")
 		self.form_alpha = gtk.SpinButton(adjustment = gtk.Adjustment(0.5, 0.0, 1.0, 0.01, 0.1, 0.0), digits = 2)
@@ -58,33 +68,43 @@ class MainWindow(gtk.Window):
 		self.button_quit.connect("button_press_event", gtk.main_quit)
 
 		self.table = gtk.Table()
-		self.table.attach(self.label_header, 0, 2, 0, 1)
-		self.table.attach(self.label_type, 0, 1, 1, 2)
-		self.table.attach(self.form_type, 1, 2, 1, 2)
-		self.table.attach(self.label_alpha, 0, 1, 2, 3)
-		self.table.attach(self.form_alpha, 1, 2, 2, 3)
-		self.table.attach(self.label_text, 0, 1, 3, 4)
-		self.table.attach(self.form_text, 1, 2, 3, 4)
-		self.table.attach(self.label_color, 0, 1, 4, 5)
-		self.table.attach(self.form_color, 1, 2, 4, 5)
-		self.table.attach(self.label_size, 0, 1, 5, 6)
-		self.table.attach(self.form_size, 1, 2, 5, 6)
-		self.table.attach(self.label_font, 0, 1, 6, 7)
-		self.table.attach(self.form_font, 1, 2, 6, 7)
-		self.table.attach(self.label_update, 0, 1, 7, 8)
-		self.table.attach(self.form_update, 1, 2, 7, 8)
-		self.table.attach(self.label_angle, 0, 1, 8, 9)
-		self.table.attach(self.form_angle, 1, 2, 8, 9)
-		self.table.attach(self.label_link, 0, 1, 9, 10)
-		self.table.attach(self.form_link, 1, 2, 9, 10)
-		self.table.attach(self.button_go, 0, 2, 10, 11, xpadding = 40, ypadding = 25)
-		self.table.attach(self.button_quit, 0, 2, 11, 12, xpadding = 40, ypadding = 25)
+		self.table.attach(self.label_header, 0, 4, 0, 1)
+		self.table.attach(self.label_path, 0, 2, 1, 2)
+		self.table.attach(self.form_path, 2, 4, 1, 2)
+		self.table.attach(self.label_type, 0, 2, 2, 3)
+		self.table.attach(self.form_type, 2, 4, 2, 3)
+		self.table.attach(self.label_pos, 0, 2, 3, 4)
+		self.table.attach(self.form_pos_x, 2, 3, 3, 4)
+		self.table.attach(self.form_pos_y, 3, 4, 3, 4)
+		self.table.attach(self.label_alpha, 0, 2, 4, 5)
+		self.table.attach(self.form_alpha, 2, 4, 4, 5)
+		self.table.attach(self.label_text, 0, 2, 5, 6)
+		self.table.attach(self.form_text, 2, 4, 5, 6)
+		self.table.attach(self.label_color, 0, 2, 6, 7)
+		self.table.attach(self.form_color, 2, 4, 6, 7)
+		self.table.attach(self.label_size, 0, 2, 7, 8)
+		self.table.attach(self.form_size, 2, 4, 7, 8)
+		self.table.attach(self.label_font, 0, 2, 8, 9)
+		self.table.attach(self.form_font, 2, 4, 8, 9)
+		self.table.attach(self.label_update, 0, 2, 9, 10)
+		self.table.attach(self.form_update, 2, 4, 9, 10)
+		self.table.attach(self.label_angle, 0, 2, 10, 11)
+		self.table.attach(self.form_angle, 2, 4, 10, 11)
+		self.table.attach(self.label_link, 0, 2, 11, 12)
+		self.table.attach(self.form_link, 2, 4, 11, 12)
+		self.table.attach(self.button_go, 0, 4, 12, 13, xpadding = 40, ypadding = 25)
+		self.table.attach(self.button_quit, 0, 4, 13, 14, xpadding = 40, ypadding = 25)
 		self.add(self.table)
 		self.show_all()
 
 	def on_press(self, widget, data):
+		path = self.form_path.get_text()
+		f = open(path, "a" if exists(path) else "w")
+
 		widget_type = self.form_type.get_active_text()
 		string = "< "+widget_type+"\n"
+		string += "pos_x = "+str(self.form_pos_x.get_value_as_int())+"\n"
+		string += "pos_y = "+str(self.form_pos_y.get_value_as_int())+"\n"
 		string += "alpha = "+str(int(100*self.form_alpha.get_value()))+"\n"
 		if widget_type == "TEXT":
 			string += "text = "+self.form_text.get_text()+"\n"
@@ -99,11 +119,12 @@ class MainWindow(gtk.Window):
 			pass
 			# string += self.form_process
 			# string += self.form_args (optiona)
-		string += ">"+"\n"
-		print(string)  # change this to write to file
-		# just have this one window, and change the button to append the current properties to a config file
-		# (add file path as a field to fill)
-		self.label_header.set_text("Widget added successfully!\nYou may now add another.")
+		string += ">"+"\n\n"
+		
+		f.write(string)
+		self.counter += 1
+		self.label_header.set_text("Widget #{0} added successfully!\nYou may now add another.".format(self.counter))
+		f.close()
 
 
 if __name__ == "__main__":

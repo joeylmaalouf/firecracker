@@ -170,6 +170,7 @@ def parse(filepath):
 		files and creating a list of FCItems from them.
 	"""
 	datalist = []
+	item = None
 	in_item = False
 	fileobj = open(filepath, "r")
 
@@ -183,7 +184,7 @@ def parse(filepath):
 			in_item = True
 			item = FCItem(line[1:].strip().upper())
 		
-		elif line[0] == ">":
+		elif line[0] == ">" and item != None:
 			datalist.append(item)
 			in_item = False
 		
