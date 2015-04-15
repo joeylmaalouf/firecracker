@@ -64,7 +64,7 @@ zip_code   = 02492
 update every hour
 
 <IMAGE
-image = ./images/logo.png
+image = ./images/chrome.png
 image_w = 50
 image_h = 50
 text = broken
@@ -72,18 +72,11 @@ font_size = 24
 font_color = #000000
 >
 
-<<<<<<< HEAD
 <LINK
 link = True
-=======
-Add: image_type = square (sets image_h = image_w)
-
-<IMAGE
-is_link = true
->>>>>>> a501cce6c1efaea8b587f257a88530da25a873b1
 image = ./images/chrome.png
 process = firefox
-args = www.images.google.com
+url = www.images.google.com
 text = Google
 text_pos = right
 font_color = #115599
