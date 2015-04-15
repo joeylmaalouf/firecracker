@@ -8,7 +8,7 @@ class MainWindow(gtk.Window):
 	def __init__(self):
 		super(MainWindow, self).__init__()
 		self.main = gtk.main
-		self.counter = 0
+		self.num_items = 0
 
 		self.connect("destroy", gtk.main_quit)
 		self.set_size_request(500, 700)
@@ -19,7 +19,7 @@ class MainWindow(gtk.Window):
 
 		self.label_path = gtk.Label("Configuration file path:")
 		self.form_path = gtk.Entry()
-		self.form_path.set_text("./skins/configuration.cfg")
+		self.form_path.set_text("./skins/example.cfg")
 
 		self.label_type = gtk.Label("Widget type:")
 		self.form_type = gtk.combo_box_new_text()
@@ -55,11 +55,19 @@ class MainWindow(gtk.Window):
 		self.label_angle = gtk.Label("Text angle:")
 		self.form_angle = gtk.SpinButton(adjustment = gtk.Adjustment(0.0, 0.0, 359.0, 1.0, 10.0, 0.0), digits = 0)
 
-		self.label_link =  gtk.Label("Clickable link:")
+		self.label_link =  gtk.Label("Runs a process on click:")
 		self.form_link = gtk.combo_box_new_text()
 		for option in ["true", "false"]:
 			self.form_link.append_text(option)
-		self.form_link.set_active(1)
+		self.form_link.set_active(0)
+
+		self.label_process = gtk.Label("Linked process:")
+		self.form_process = gtk.Entry()
+		self.form_process.set_text("firefox")
+
+		self.label_args = gtk.Label("Optional process arguments:")
+		self.form_args = gtk.Entry()
+		self.form_args.set_text("github.com -private")
 
 		self.button_go = gtk.Button("Go!")
 		self.button_go.connect("button_press_event", self.on_press)
@@ -92,8 +100,12 @@ class MainWindow(gtk.Window):
 		self.table.attach(self.form_angle, 2, 4, 10, 11)
 		self.table.attach(self.label_link, 0, 2, 11, 12)
 		self.table.attach(self.form_link, 2, 4, 11, 12)
-		self.table.attach(self.button_go, 0, 4, 12, 13, xpadding = 40, ypadding = 25)
-		self.table.attach(self.button_quit, 0, 4, 13, 14, xpadding = 40, ypadding = 25)
+		self.table.attach(self.label_process, 0, 2, 12, 13)
+		self.table.attach(self.form_process, 2, 4, 12, 13)
+		self.table.attach(self.label_args, 0, 2, 13, 14)
+		self.table.attach(self.form_args, 2, 4, 13, 14)
+		self.table.attach(self.button_go, 0, 4, 14, 15, xpadding = 40, ypadding = 25)
+		self.table.attach(self.button_quit, 0, 4, 15, 16, xpadding = 40, ypadding = 25)
 		self.add(self.table)
 		self.show_all()
 
@@ -116,14 +128,13 @@ class MainWindow(gtk.Window):
 		string += "angle = "+str(self.form_angle.get_value_as_int())+"\n"
 		string += "is_link = "+self.form_link.get_active_text()+"\n"
 		if self.form_link.get_active_text() == "true":
-			pass
-			# string += self.form_process
-			# string += self.form_args (optiona)
+			string += "process = "+self.form_process.get_text()+"\n"
+			string += "args = "+self.form_args.get_text()+"\n"
 		string += ">"+"\n\n"
 		
 		f.write(string)
-		self.counter += 1
-		self.label_header.set_text("Widget #{0} added successfully!\nYou may now add another.".format(self.counter))
+		self.num_items += 1
+		self.label_header.set_text("Widget #{0} added successfully!\nYou may now add another.".format(self.num_items))
 		f.close()
 
 
