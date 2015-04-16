@@ -87,9 +87,6 @@ class FCWindow(object):
 			weather_string =  "Weather: {0}\nTemperature: {1:0.2f} degrees Fahrenheit.".format(status, temp)
 			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.text_size*1000)+"'>"+weather_string+"</span>")
 
-		elif self.vals.type == "IMAGE":
-			pass
-
 		return True
 
 	def key_press(self, widget, event):
