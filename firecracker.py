@@ -30,5 +30,4 @@ if __name__ == "__main__":
 	main(sys.argv)
 
 # todo:
-# config file generator
 # fix install.sh
