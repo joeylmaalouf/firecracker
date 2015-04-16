@@ -60,12 +60,12 @@ class FCWindow(object):
 		self.box.connect("motion_notify_event", self.mousemove)
 		self.box.set_events(gtk.gdk.EXPOSURE_MASK|gtk.gdk.BUTTON_PRESS_MASK)
 
-		try:
+		if self.vals.type == "IMAGE":
 			self.image = gtk.Image()
 			pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(item.image, width = item.image_w, height = item.image_h)
 			self.image.set_from_pixbuf(pixbuf)
 			self.box.add(self.image)
-		except:
+		else:
 			self.box.add(self.label)
 
 		self.window.add(self.box)
@@ -80,11 +80,14 @@ class FCWindow(object):
 			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.text_size*1000)+"'>"+time_string+"</span>")
 
 		elif self.vals.type == "WEATHER":
-			data = loads(URL("http://api.openweathermap.org/data/2.5/weather?zip="+self.vals.zip_code+",us").download())
-			status = data["weather"][0]["main"].lower()
-			# status = {"clouds":"It's cloudy outside.", "clear":"It's clear outside.", "rain":"It's raining outside."}[status]
-			temp = (float(data["main"]["temp"])-273.15)*9/5+32
-			weather_string =  "Weather: {0}\nTemperature: {1:0.2f} degrees Fahrenheit.".format(status, temp)
+			try:
+				data = loads(URL("http://api.openweathermap.org/data/2.5/weather?zip="+self.vals.zip_code+",us").download())
+				status = data["weather"][0]["main"].lower()
+				# status = {"clouds":"It's cloudy outside.", "clear":"It's clear outside.", "rain":"It's raining outside."}[status]
+				temp = (float(data["main"]["temp"])-273.15)*9/5+32
+				weather_string =  "Weather: {0}\nTemperature: {1:0.2f} degrees Fahrenheit.".format(status, temp)
+			except:
+				weather_string = "Could not retrieve\nweather data"
 			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.text_size*1000)+"'>"+weather_string+"</span>")
 
 		return True

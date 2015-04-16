@@ -9,6 +9,7 @@ class MainWindow(gtk.Window):
 		super(MainWindow, self).__init__()
 		self.main = gtk.main
 		self.num_items = 0
+		self.set_title("Firecracker Editor")
 
 		self.connect("destroy", gtk.main_quit)
 		self.set_size_request(500, 700)
