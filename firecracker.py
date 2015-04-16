@@ -30,4 +30,5 @@ if __name__ == "__main__":
 	main(sys.argv)
 
 # todo:
+# add image widget support to config generator
 # fix install.sh
