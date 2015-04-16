@@ -118,7 +118,7 @@ class FCWindow(object):
 		elif event.type == gtk.gdk._2BUTTON_PRESS:
 			if self.vals.link:
 				try:
-					subprocess.call([self.vals.process,self.vals.args])
+					subprocess.call([self.vals.process, self.vals.args])
 				except:
 					subprocess.call(self.vals.process)
 		

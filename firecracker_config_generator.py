@@ -65,9 +65,9 @@ class MainWindow(gtk.Window):
 		self.form_process = gtk.Entry()
 		self.form_process.set_text("firefox")
 
-		self.label_args = gtk.Label("Optional process arguments:")
+		self.label_args = gtk.Label("Optional process flags/arguments:")
 		self.form_args = gtk.Entry()
-		self.form_args.set_text("github.com -private")
+		self.form_args.set_text("github.com")
 
 		self.button_go = gtk.Button("Go!")
 		self.button_go.connect("button_press_event", self.on_press)
@@ -126,7 +126,7 @@ class MainWindow(gtk.Window):
 			string += "font = "+self.form_font.get_text()+"\n"
 		string += "update_timer = "+str(100*int(10*self.form_update.get_value()))+"\n"
 		string += "angle = "+str(self.form_angle.get_value_as_int())+"\n"
-		string += "is_link = "+self.form_link.get_active_text()+"\n"
+		string += "link = "+self.form_link.get_active_text()+"\n"
 		if self.form_link.get_active_text() == "true":
 			string += "process = "+self.form_process.get_text()+"\n"
 			string += "args = "+self.form_args.get_text()+"\n"
