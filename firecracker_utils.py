@@ -3,7 +3,7 @@ import subprocess
 from datetime import datetime
 from json import loads
 from pattern.web import URL
-from firecracker_config_generator import MainWindow
+from firecracker_config_generator import ConfigWindow
 
 import pygtk
 pygtk.require("2.0")
@@ -32,16 +32,18 @@ class FCWindow(object):
 
 		self.label = gtk.Label(item.text)
 		self.label.set_angle(item.angle)
-		self.label.set_markup("<span face='"+item.font+"' size='"+str(item.text_size*1000)+"'>"+str(item.text)+"</span>")
+		self.label.set_markup("<span face='"+item.font+"' size='"+str(item.font_size*1000)+"'>"+str(item.text)+"</span>")
 		self.label.set_justify(gtk.JUSTIFY_CENTER)
-		self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(item.text_color))
+		self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(item.font_color))
 
 		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-		self.window.resize(item.w, item.h)
-		self.window.move(item.x, item.y)
+		self.window.resize(item.size_w, item.size_h)
+		self.window.move(item.pos_x, item.pos_y)
 		self.window.set_title(item.title)
 		self.window.set_opacity(item.alpha)
-		self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_DOCK)  # uncomment this to remove the taskbar icon, comment to add it back
+			# Uncomment the below line to remove the taskbar icon; comment it to add the icon back.
+			# It's currently commented because uncommenting it prevents image widgets from displaying.
+		# self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_DOCK)
 		self.window.set_keep_below(True)
 		self.window.set_icon_from_file("images/logo.png")
 		self.window.stick()
@@ -77,7 +79,7 @@ class FCWindow(object):
 		if self.vals.type == "CLOCK":
 			time = datetime.now().time()
 			time_string = "{0:02d}:{1:02d}:{2:02d}".format(time.hour, time.minute, time.second)
-			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.text_size*1000)+"'>"+time_string+"</span>")
+			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+time_string+"</span>")
 
 		elif self.vals.type == "WEATHER":
 			try:
@@ -87,8 +89,8 @@ class FCWindow(object):
 				temp = (float(data["main"]["temp"])-273.15)*9/5+32
 				weather_string =  "Weather: {0}\nTemperature: {1:0.2f} degrees Fahrenheit.".format(status, temp)
 			except:
-				weather_string = "Could not retrieve\nweather data"
-			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.text_size*1000)+"'>"+weather_string+"</span>")
+				weather_string = "Could not retrieve\nweather data."
+			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+weather_string+"</span>")
 
 		return True
 
@@ -102,7 +104,7 @@ class FCWindow(object):
 				gtk.main_quit()
 		elif gtk.gdk.keyval_name(event.keyval) == "m":
 			if event.state & gtk.gdk.CONTROL_MASK:
-				MainWindow().main()
+				ConfigWindow().main()
 		elif gtk.gdk.keyval_name(event.keyval) == "Up":
 			y -= 5
 		elif gtk.gdk.keyval_name(event.keyval) == "Down":
@@ -150,19 +152,49 @@ class FCItem(object):
 	def __init__(self, type_str):
 		self.type = type_str
 		self.title = "Firecracker"
-		self.x = 0
-		self.y = 0
-		self.w = 1
-		self.h = 1
-		self.alpha = 1.0
 		self.text = ""
-		self.text_size = 16
-		self.text_color = "#FFFFFF"
+		self.pos_x = 0
+		self.pos_y = 0
+		self.size_w = 1
+		self.size_h = 1
+		self.alpha = 1.0
+		self.font_size = 16
+		self.font_color = "#FFFFFF"
 		self.font = "Helvetica"
 		self.angle = 0
 		self.zip_code = "00000"
-		self.link = False
+		self.image = "./images/empty.png"
+		self.image_w = -1
+		self.image_h = -1
 		self.update_timer = 1000
+		self.link = False
+		self.process = ""
+		self.args = ""
+		self.sanitizer_map = {	"text"        :lambda x: str(x),
+								"pos_x"       :lambda x: int(x),
+								"pos_y"       :lambda x: int(x),
+								"size_w"      :lambda x: int(x),
+								"size_h"      :lambda x: int(x),
+								"alpha"       :lambda x: int(x)/100.0,
+								"font_size"   :lambda x: int(x),
+								"font_color"  :lambda x: str(x),
+								"font"        :lambda x: str(x),
+								"angle"       :lambda x: int(x),
+								"zip_code"    :lambda x: str(x),
+								"image"       :lambda x: str(x),
+								"image_w"     :lambda x: int(x),
+								"image_h"     :lambda x: int(x),
+								"update_timer":lambda x: int(x),
+								"link"        :lambda x: True if x.lower() == "true" else False,
+								"process"     :lambda x: str(x),
+								"args"        :lambda x: str(x)	}
+
+	def set_attribute(self, key, value):
+		if hasattr(self, key):
+			self.__setattr__(key, self.sanitizer_map[key](value))
+			return True
+		else:
+			return False
 
 
 def parse(filepath):
@@ -174,7 +206,7 @@ def parse(filepath):
 	in_item = False
 	fileobj = open(filepath, "r")
 
-	for i, line in enumerate(fileobj):
+	for line in fileobj:
 		line = line.strip()
 		
 		if len(line) == 0:
@@ -191,44 +223,7 @@ def parse(filepath):
 		elif "=" in line and in_item:
 			(key, val) = [i.strip() for i in line.split("=", 1)]
 			key = key.lower()
-			if key == "text":
-				item.text = val
-			elif key == "pos_x":
-				item.x = int(val)
-				item.x_line = i
-			elif key == "pos_y":
-				item.y = int(val)
-				item.y_line = i
-			elif key == "size_w":
-				item.w = int(val)
-			elif key == "size_h":
-				item.h = int(val)
-			elif key == "alpha":
-				item.alpha = int(val)/100.0
-			elif key == "font_size":
-				item.text_size = int(val)
-			elif key == "font_color":
-				item.text_color = val
-			elif key == "font":
-				item.font = val
-			elif key == "angle":
-				item.angle = int(val)
-			elif key == "zip_code":
-				item.zip_code = str(val)
-			elif key == "image":
-				item.image = val
-			elif key == "image_w":
-				item.image_w = int(val)
-			elif key == "image_h":
-				item.image_h = int(val)
-			elif key == "update":
-				item.update_timer = int(val)
-			elif key == "link":
-				item.link = True if val.lower() == "true" else False
-			elif key == "process":
-				item.process = val
-			elif key == "args":
-				item.args = val
+			item.set_attribute(key, val)
 
 	fileobj.close()
 	return datalist

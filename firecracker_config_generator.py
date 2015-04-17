@@ -4,9 +4,9 @@ import gtk
 from os.path import exists
 
 
-class MainWindow(gtk.Window):
+class ConfigWindow(gtk.Window):
 	def __init__(self):
-		super(MainWindow, self).__init__()
+		super(ConfigWindow, self).__init__()
 		self.main = gtk.main
 		self.num_items = 0
 		self.set_title("Firecracker Editor")
@@ -44,7 +44,7 @@ class MainWindow(gtk.Window):
 		self.form_color.set_color(gtk.gdk.color_parse("#0000FFFF0000"))
 
 		self.label_size = gtk.Label("Text size:")
-		self.form_size = gtk.SpinButton(adjustment = gtk.Adjustment(12.0, 2.0, 128.0, 1.0, 10.0, 0.0), digits = 0)
+		self.form_size = gtk.SpinButton(adjustment = gtk.Adjustment(12.0, 2.0, 512.0, 1.0, 10.0, 0.0), digits = 0)
 
 		self.label_font = gtk.Label("Font:")
 		self.form_font = gtk.Entry()
@@ -105,8 +105,8 @@ class MainWindow(gtk.Window):
 		self.table.attach(self.form_process, 2, 4, 12, 13)
 		self.table.attach(self.label_args, 0, 2, 13, 14)
 		self.table.attach(self.form_args, 2, 4, 13, 14)
-		self.table.attach(self.button_go, 0, 4, 14, 15, xpadding = 40, ypadding = 25)
-		self.table.attach(self.button_quit, 0, 4, 15, 16, xpadding = 40, ypadding = 25)
+		self.table.attach(self.button_go, 0, 4, 14, 15, xpadding = 40, ypadding = 20)
+		self.table.attach(self.button_quit, 0, 4, 15, 16, xpadding = 40, ypadding = 20)
 		self.add(self.table)
 		self.show_all()
 
@@ -140,5 +140,5 @@ class MainWindow(gtk.Window):
 
 
 if __name__ == "__main__":
-	win = MainWindow()
+	win = ConfigWindow()
 	win.main()
