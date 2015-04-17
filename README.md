@@ -20,10 +20,6 @@ PyGTK
 
 (comes with Ubuntu)
 
-Pyglet
-
-`sudo pip2 install pyglet`
-
 Pattern
 
 `sudo pip2 install pattern`
