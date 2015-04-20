@@ -50,11 +50,23 @@ class ConfigWindow(gtk.Window):
 		self.form_font = gtk.Entry()
 		self.form_font.set_text("Sawasdee")
 
+		self.label_zip = gtk.Label("Zip code (for weather):")
+		self.form_zip = gtk.Entry()
+		self.form_zip.set_text("02492")
+
 		self.label_update = gtk.Label("Update timer:")
 		self.form_update = gtk.SpinButton(adjustment = gtk.Adjustment(1.0, 0.1, 60.0, 0.1, 1.0, 0.0), digits = 1)
 
-		self.label_angle = gtk.Label("Text angle:")
+		self.label_angle = gtk.Label("Angle:")
 		self.form_angle = gtk.SpinButton(adjustment = gtk.Adjustment(0.0, 0.0, 359.0, 1.0, 10.0, 0.0), digits = 0)
+
+		self.label_img = gtk.Label("Image file path:")
+		self.form_img = gtk.Entry()
+		self.form_img.set_text("./images/logo.png")
+
+		self.label_imgs = gtk.Label("Image display size:")
+		self.form_imgs_w = gtk.SpinButton(adjustment = gtk.Adjustment(100.0, 0.0, self.get_screen().get_width(), 1.0, 10.0, 0.0), digits = 0)
+		self.form_imgs_h = gtk.SpinButton(adjustment = gtk.Adjustment(100.0, 0.0, self.get_screen().get_height(), 1.0, 10.0, 0.0), digits = 0)
 
 		self.label_link =  gtk.Label("Runs a process on click:")
 		self.form_link = gtk.combo_box_new_text()
@@ -95,18 +107,25 @@ class ConfigWindow(gtk.Window):
 		self.table.attach(self.form_size, 2, 4, 7, 8)
 		self.table.attach(self.label_font, 0, 2, 8, 9)
 		self.table.attach(self.form_font, 2, 4, 8, 9)
-		self.table.attach(self.label_update, 0, 2, 9, 10)
-		self.table.attach(self.form_update, 2, 4, 9, 10)
-		self.table.attach(self.label_angle, 0, 2, 10, 11)
-		self.table.attach(self.form_angle, 2, 4, 10, 11)
-		self.table.attach(self.label_link, 0, 2, 11, 12)
-		self.table.attach(self.form_link, 2, 4, 11, 12)
-		self.table.attach(self.label_process, 0, 2, 12, 13)
-		self.table.attach(self.form_process, 2, 4, 12, 13)
-		self.table.attach(self.label_args, 0, 2, 13, 14)
-		self.table.attach(self.form_args, 2, 4, 13, 14)
-		self.table.attach(self.button_go, 0, 4, 14, 15, xpadding = 40, ypadding = 20)
-		self.table.attach(self.button_quit, 0, 4, 15, 16, xpadding = 40, ypadding = 20)
+		self.table.attach(self.label_zip, 0, 2, 9, 10)
+		self.table.attach(self.form_zip, 2, 4, 9, 10)
+		self.table.attach(self.label_update, 0, 2, 10, 11)
+		self.table.attach(self.form_update, 2, 4, 10, 11)
+		self.table.attach(self.label_angle, 0, 2, 11, 12)
+		self.table.attach(self.form_angle, 2, 4, 11, 12)
+		self.table.attach(self.label_img, 0, 2, 12, 13)
+		self.table.attach(self.form_img, 2, 4, 12, 13)
+		self.table.attach(self.label_imgs, 0, 2, 13, 14)
+		self.table.attach(self.form_imgs_w, 2, 3, 13, 14)
+		self.table.attach(self.form_imgs_h, 3, 4, 13, 14)
+		self.table.attach(self.label_link, 0, 2, 14, 15)
+		self.table.attach(self.form_link, 2, 4, 14, 15)
+		self.table.attach(self.label_process, 0, 2, 15, 16)
+		self.table.attach(self.form_process, 2, 4, 15, 16)
+		self.table.attach(self.label_args, 0, 2, 16, 17)
+		self.table.attach(self.form_args, 2, 4, 16, 17)
+		self.table.attach(self.button_go, 0, 4, 17, 18, xpadding = 40, ypadding = 20)
+		self.table.attach(self.button_quit, 0, 4, 18, 19, xpadding = 40, ypadding = 20)
 		self.add(self.table)
 		self.show_all()
 
@@ -125,8 +144,14 @@ class ConfigWindow(gtk.Window):
 			string += "font_color = "+self.form_color.get_color().to_string()+"\n"
 			string += "font_size = "+str(self.form_size.get_value_as_int())+"\n"
 			string += "font = "+self.form_font.get_text()+"\n"
+		if widget_type == "WEATHER":
+			string += "zip_code = "+self.form_zip.get_text()+"\n"
 		string += "update_timer = "+str(100*int(10*self.form_update.get_value()))+"\n"
 		string += "angle = "+str(self.form_angle.get_value_as_int())+"\n"
+		if widget_type == "IMAGE":
+			string += "image = "+self.form_img.get_text()+"\n"
+			string += "image_w = "+str(self.form_imgs_w.get_value_as_int())+"\n"
+			string += "image_h = "+str(self.form_imgs_h.get_value_as_int())+"\n"
 		string += "link = "+self.form_link.get_active_text()+"\n"
 		if self.form_link.get_active_text() == "true":
 			string += "process = "+self.form_process.get_text()+"\n"

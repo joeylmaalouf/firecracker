@@ -30,5 +30,4 @@ if __name__ == "__main__":
 	main(sys.argv)
 
 # todo:
-# add image path and zip code to config generator
 # fix install.sh
