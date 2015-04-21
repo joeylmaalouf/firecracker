@@ -60,7 +60,7 @@ class FCWindow(object):
 		self.box.connect("button_press_event", self.onclick)
 		self.box.connect("button_release_event", self.onrelease)
 		self.box.connect("motion_notify_event", self.mousemove)
-		self.box.set_events(gtk.gdk.EXPOSURE_MASK|gtk.gdk.BUTTON_PRESS_MASK)
+		self.box.set_events(gtk.gdk.EXPOSURE_MASK | gtk.gdk.BUTTON_PRESS_MASK)
 
 		if self.vals.type == "IMAGE":
 			self.image = gtk.Image()
