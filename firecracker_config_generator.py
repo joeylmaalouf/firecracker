@@ -24,7 +24,7 @@ class ConfigWindow(gtk.Window):
 		self.add(self.table)
 		self.show_all()
 
-	def on_press(self, widget, data):
+	def on_press(self, widget, event, data):
 		s = widget.get_label()[:-7]
 		win = {"Text":TextWW, "Clock":ClockWW, "Weather":WeatherWW, "Image":ImageWW}[s]()
 		win.main()
@@ -70,7 +70,7 @@ class WidgetWindow(gtk.Window):
 		self.button_go = gtk.Button("Go!")
 		self.button_go.connect("button_press_event", self.on_press)
 
-	def on_press(self, widget, data):
+	def on_press(self, widget, event, data):
 		self.quit()
 
 
@@ -121,7 +121,7 @@ class TextWW(WidgetWindow):
 		self.add(self.table)
 		self.show_all()
 
-	def on_press(self, widget, data):
+	def on_press(self, widget, event, data):
 		path = self.form_path.get_text()
 		string = "< TEXT\n"
 		string += "pos_x = "+str(self.form_pos_x.get_value_as_int())+"\n"
@@ -190,7 +190,7 @@ class ClockWW(WidgetWindow):
 		self.add(self.table)
 		self.show_all()
 
-	def on_press(self, widget, data):
+	def on_press(self, widget, event, data):
 		path = self.form_path.get_text()
 		string = "< CLOCK\n"
 		string += "pos_x = "+str(self.form_pos_x.get_value_as_int())+"\n"
@@ -265,7 +265,7 @@ class WeatherWW(WidgetWindow):
 		self.add(self.table)
 		self.show_all()
 
-	def on_press(self, widget, data):
+	def on_press(self, widget, event, data):
 		path = self.form_path.get_text()
 		string = "< WEATHER\n"
 		string += "pos_x = "+str(self.form_pos_x.get_value_as_int())+"\n"
@@ -324,7 +324,7 @@ class ImageWW(WidgetWindow):
 		self.add(self.table)
 		self.show_all()
 
-	def on_press(self, widget, data):
+	def on_press(self, widget, event, data):
 		path = self.form_path.get_text()
 		string = "< IMAGE\n"
 		string += "pos_x = "+str(self.form_pos_x.get_value_as_int())+"\n"

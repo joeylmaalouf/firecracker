@@ -94,7 +94,7 @@ class FCWindow(object):
 
 		return True
 
-	def key_press(self, widget, event):
+	def key_press(self, widget, event, data):
 		x, y = self.window.get_position()
 
 		if gtk.gdk.keyval_name(event.keyval) == "Escape":
@@ -115,7 +115,7 @@ class FCWindow(object):
 			x += 5
 		self.window.move(x, y)
 
-	def onclick (self, widget, event):
+	def onclick (self, widget, event, data):
 		if event.type == gtk.gdk.BUTTON_PRESS:
 			self.window.drag = True
 			self.drag_x = event.x
@@ -128,14 +128,14 @@ class FCWindow(object):
 					subprocess.call(self.vals.process)
 		
 
-	def onrelease(self, widget, event):
+	def onrelease(self, widget, event, data):
 		self.window.drag = False
 
-	def mousemove(self, widget, event):
+	def mousemove(self, widget, event, data):
 		x, y = self.window.get_position()
 		self.window.move(x+int(event.x-self.drag_x), y+int(event.y-self.drag_y))
 
-	def transparent_expose(self, widget, event):
+	def transparent_expose(self, widget, event, data):
 		cr = widget.window.cairo_create()
 		cr.set_operator(cairo.OPERATOR_CLEAR)
 		region = gtk.gdk.region_rectangle(event.area)
