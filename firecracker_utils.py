@@ -42,8 +42,7 @@ class FCWindow(object):
 		self.window.set_title(item.title)
 		self.window.set_opacity(item.alpha)
 			# Uncomment the below line to remove the taskbar icon; comment it to add the icon back.
-			# It's currently commented because uncommenting it prevents image widgets from displaying.
-		# self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_DOCK)
+		self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_DOCK)
 		self.window.set_keep_below(True)
 		self.window.set_icon_from_file("images/logo.png")
 		self.window.stick()
