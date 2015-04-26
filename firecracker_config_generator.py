@@ -17,7 +17,7 @@ class ConfigWindow(gtk.Window):
 
 		self.table = gtk.Table()
 		self.buttons = {}
-		for i, s in enumerate(["Text", "Clock", "Weather", "Image"]):
+		for i, s in enumerate(["Text", "Clock", "Weather", "Image", "Performance"]):
 			self.buttons[s] = gtk.Button(s+" Widget")
 			self.buttons[s].connect("button_press_event", self.on_press)
 			self.table.attach(self.buttons[s], 0, 1, i, i+1)
@@ -26,7 +26,7 @@ class ConfigWindow(gtk.Window):
 
 	def on_press(self, widget, event):
 		s = widget.get_label()[:-7]
-		win = {"Text":TextWW, "Clock":ClockWW, "Weather":WeatherWW, "Image":ImageWW}[s]()
+		win = {"Text":TextWW, "Clock":ClockWW, "Weather":WeatherWW, "Image":ImageWW, "Performance":PerformanceWW}[s]()
 		win.main()
 
 
@@ -333,6 +333,75 @@ class ImageWW(WidgetWindow):
 		string += "image = "+self.form_img.get_text()+"\n"
 		string += "image_w = "+str(self.form_imgs_w.get_value_as_int())+"\n"
 		string += "image_h = "+str(self.form_imgs_h.get_value_as_int())+"\n"
+		string += "link = "+self.form_link.get_active_text()+"\n"
+		if self.form_link.get_active_text() == "true":
+			string += "process = "+self.form_process.get_text()+"\n"
+			string += "args = "+self.form_args.get_text()+"\n"
+		string += ">"+"\n\n"
+		f = open(path, "a" if exists(path) else "w")
+		f.write(string)
+		f.close()
+		time.sleep(0.15)
+		self.destroy()
+
+
+class PerformanceWW(WidgetWindow):
+	def __init__(self):
+		super(PerformanceWW, self).__init__()
+		self.set_title("Performance Widget")
+
+		self.label_color = gtk.Label("Text color:")
+		self.form_color = gtk.ColorButton()
+		self.form_color.set_color(gtk.gdk.color_parse("#0000FFFF0000"))
+
+		self.label_size = gtk.Label("Text size:")
+		self.form_size = gtk.SpinButton(adjustment = gtk.Adjustment(12.0, 2.0, 512.0, 1.0, 10.0, 0.0), digits = 0)
+
+		self.label_font = gtk.Label("Font:")
+		self.form_font = gtk.Entry()
+		self.form_font.set_text("Sawasdee")
+
+		self.label_update = gtk.Label("Update timer:")
+		self.form_update = gtk.SpinButton(adjustment = gtk.Adjustment(1.0, 0.1, 60.0, 0.1, 1.0, 0.0), digits = 1)
+
+		self.table.attach(self.label_path, 0, 2, 0, 1)
+		self.table.attach(self.form_path, 2, 4, 0, 1)
+		self.table.attach(self.label_pos, 0, 2, 1, 2)
+		self.table.attach(self.form_pos_x, 2, 3, 1, 2)
+		self.table.attach(self.form_pos_y, 3, 4, 1, 2)
+		self.table.attach(self.label_alpha, 0, 2, 2, 3)
+		self.table.attach(self.form_alpha, 2, 4, 2, 3)
+		self.table.attach(self.label_angle, 0, 2, 3, 4)
+		self.table.attach(self.form_angle, 2, 4, 3, 4)
+		self.table.attach(self.label_color, 0, 2, 4, 5)
+		self.table.attach(self.form_color, 2, 4, 4, 5)
+		self.table.attach(self.label_size, 0, 2, 5, 6)
+		self.table.attach(self.form_size, 2, 4, 5, 6)
+		self.table.attach(self.label_font, 0, 2, 6, 7)
+		self.table.attach(self.form_font, 2, 4, 6, 7)
+		self.table.attach(self.label_update, 0, 2, 7, 8)
+		self.table.attach(self.form_update, 2, 4, 7, 8)
+		self.table.attach(self.label_link, 0, 2, 8, 9)
+		self.table.attach(self.form_link, 2, 4, 8, 9)
+		self.table.attach(self.label_process, 0, 2, 9, 10)
+		self.table.attach(self.form_process, 2, 4, 9, 10)
+		self.table.attach(self.label_args, 0, 2, 10, 11)
+		self.table.attach(self.form_args, 2, 4, 10, 11)
+		self.table.attach(self.button_go, 0, 4, 11, 12)
+		self.add(self.table)
+		self.show_all()
+
+	def on_press(self, widget, event):
+		path = self.form_path.get_text()
+		string = "< PERFORMANCE\n"
+		string += "pos_x = "+str(self.form_pos_x.get_value_as_int())+"\n"
+		string += "pos_y = "+str(self.form_pos_y.get_value_as_int())+"\n"
+		string += "alpha = "+str(int(100*self.form_alpha.get_value()))+"\n"
+		string += "angle = "+str(self.form_angle.get_value_as_int())+"\n"
+		string += "font_color = "+self.form_color.get_color().to_string()+"\n"
+		string += "font_size = "+str(self.form_size.get_value_as_int())+"\n"
+		string += "font = "+self.form_font.get_text()+"\n"
+		string += "update_timer = "+str(100*int(10*self.form_update.get_value()))+"\n"
 		string += "link = "+self.form_link.get_active_text()+"\n"
 		if self.form_link.get_active_text() == "true":
 			string += "process = "+self.form_process.get_text()+"\n"

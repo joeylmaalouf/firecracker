@@ -81,15 +81,6 @@ class FCWindow(object):
 			time_string = "{0:02d}:{1:02d}:{2:02d}".format(time.hour, time.minute, time.second)
 			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+time_string+"</span>")
 
-		elif self.vals.type == "PERFORMANCE":
-			cpu_usage = psutil.cpu_percent()
-			disk_space = psutil.disk_usage('/').percent
-			memory_usage = psutil.virtual_memory().percent
-
-			performance_string = "CPU: {}% || RAM: {}% || DISK SPACE: {}% ".format(cpu_usage, memory_usage, disk_space)
-			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+performance_string+"</span>")
-
-
 		elif self.vals.type == "WEATHER":
 			try:
 				data = loads(URL("http://api.openweathermap.org/data/2.5/weather?zip="+self.vals.zip_code+",us").download())
@@ -100,6 +91,13 @@ class FCWindow(object):
 			except:
 				weather_string = "Could not retrieve\nweather data."
 			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+weather_string+"</span>")
+
+		elif self.vals.type == "PERFORMANCE":
+			cpu_usage = psutil.cpu_percent()
+			disk_space = psutil.disk_usage('/').percent
+			memory_usage = psutil.virtual_memory().percent
+			performance_string = "CPU: {0}% || RAM: {1}% || DISK SPACE: {2}% ".format(cpu_usage, memory_usage, disk_space)
+			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+performance_string+"</span>")
 
 		return True
 
