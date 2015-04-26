@@ -81,7 +81,7 @@ class FCWindow(object):
 			time_string = "{0:02d}:{1:02d}:{2:02d}".format(time.hour, time.minute, time.second)
 			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+time_string+"</span>")
 
-		elif self.vals.type == "CPU_RAM_DISK":
+		elif self.vals.type == "PERFORMANCE":
 			cpu_usage = psutil.cpu_percent()
 			disk_space = psutil.disk_usage('/').percent
 			memory_usage = psutil.virtual_memory().percent
