@@ -1,5 +1,6 @@
 import cairo
 import subprocess
+import psutil
 from datetime import datetime
 from json import loads
 from pattern.web import URL
@@ -79,6 +80,15 @@ class FCWindow(object):
 			time = datetime.now().time()
 			time_string = "{0:02d}:{1:02d}:{2:02d}".format(time.hour, time.minute, time.second)
 			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+time_string+"</span>")
+
+		elif self.vals.type == "CPU_RAM_DISK":
+			cpu_usage = psutil.cpu_percent()
+			disk_space = psutil.disk_usage('/').percent
+			memory_usage = psutil.virtual_memory().percent
+
+			performance_string = "CPU: {}% || RAM: {}% || DISK SPACE: {}% ".format(cpu_usage, memory_usage, disk_space)
+			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+performance_string+"</span>")
+
 
 		elif self.vals.type == "WEATHER":
 			try:
