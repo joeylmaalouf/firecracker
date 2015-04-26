@@ -24,6 +24,10 @@ Pattern
 
 `sudo pip2 install pattern`
 
+psutil
+
+`sudo pip2 install psutil`
+
 
 ### How To Use It
 
