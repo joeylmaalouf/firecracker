@@ -39,8 +39,8 @@ In order to have Firecracker run on startup:
 
 1. clone this repo to some location `.../firecracker`
 2. `$ cd .../firecracker`
-3. put your configuration in `skins/example.cfg`
-4. `$ sudo ./install.sh`
+3. put your desired configuration in `skins/example.cfg`
+4. `$ sudo bash install.sh`
 5. restart computer
 
 Press Ctrl+M with any widget selected in order to bring up the widget creator, or run `python2 firecracker_config_generator.py`.
