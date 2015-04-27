@@ -32,7 +32,7 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h1>
-<a id="firecracker" class="anchor" href="#firecracker" aria-hidden="true"><span class="octicon octicon-link"></span></a>firecracker</h1>
+<a id="firecracker" class="anchor" href="#firecracker" aria-hidden="true"><span class="octicon octicon-link"></span></a>Firecracker</h1>
 
 <p><a href="https://github.com/joeylmaalouf/firecracker/blob/master/docs/RainmeterProjectProposal.pdf">View the project proposal here.</a></p>
 
@@ -57,6 +57,29 @@
 <p>This is our final project for SoftDes Spring 2015 at Olin.</p>
 
 <h3>
+<a id="how-to-use-it" class="anchor" href="#how-to-use-it" aria-hidden="true"><span class="octicon octicon-link"></span></a>How To Use It</h3>
+
+<p>In order to run Firecracker manually:</p>
+
+<p><code>python2 firecracker.py &lt;config file&gt;</code></p>
+
+<p>In order to have Firecracker run on startup:</p>
+
+<ol>
+<li>clone this repo to some location <code>.../firecracker</code>
+</li>
+<li><code>$ cd .../firecracker</code></li>
+<li>put your desired configuration in <code>.../firecracker/skins/example.cfg</code>
+</li>
+<li><code>$ sudo bash install.sh</code></li>
+<li>relogin to your computer</li>
+</ol>
+
+<p>This process will also install the required dependencies (listed below).</p>
+
+<p>Press Ctrl+M with any widget selected in order to bring up the widget creator, or run <code>python2 firecracker_config_generator.py</code>.</p>
+
+<h3>
 <a id="dependencies" class="anchor" href="#dependencies" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dependencies</h3>
 
 <p>PyGTK</p>
@@ -70,27 +93,6 @@
 <p>psutil</p>
 
 <p><code>sudo pip2 install psutil</code></p>
-
-<h3>
-<a id="how-to-use-it" class="anchor" href="#how-to-use-it" aria-hidden="true"><span class="octicon octicon-link"></span></a>How To Use It</h3>
-
-<p>In order to run Firecracker manually:</p>
-
-<p><code>python2 firecracker.py &lt;config file&gt;</code></p>
-
-<p>In order to have Firecracker run on startup:</p>
-
-<ol>
-<li>clone this repo to some location <code>.../firecracker</code>
-</li>
-<li><code>$ cd .../firecracker</code></li>
-<li>put your configuration in <code>skins/example.cfg</code>
-</li>
-<li><code>$ sudo ./install.sh</code></li>
-<li>restart computer</li>
-</ol>
-
-<p>Press Ctrl+M with any widget selected in order to bring up the widget creator, or run <code>python2 firecracker_config_generator.py</code>.</p>
 
 <h3>
 <a id="notes" class="anchor" href="#notes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Notes</h3>
