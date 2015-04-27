@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from firecracker_utils import FCManager, FCWindow, FCItem, parse
 import sys
 
@@ -28,6 +29,3 @@ def main(argv):
 
 if __name__ == "__main__":
 	main(sys.argv)
-
-# todo:
-# fix install.sh
