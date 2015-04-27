@@ -15,6 +15,25 @@ Firecracker is a fanmade rewrite of Rainmeter for Ubuntu. Just like Rainmeter, F
 This is our final project for SoftDes Spring 2015 at Olin.
 
 
+### How To Use It
+
+In order to run Firecracker manually:
+
+`python2 firecracker.py <config file>`
+
+In order to have Firecracker run on startup:
+
+1. clone this repo to some location `.../firecracker`
+2. `$ cd .../firecracker`
+3. put your desired configuration in `.../firecracker/skins/example.cfg`
+4. `$ sudo bash install.sh`
+5. relogin to your computer
+
+This process will also install the required dependencies (listed below).
+
+Press Ctrl+M with any widget selected in order to bring up the widget creator, or run `python2 firecracker_config_generator.py`.
+
+
 ### Dependencies
 PyGTK
 
@@ -27,23 +46,6 @@ Pattern
 psutil
 
 `sudo pip2 install psutil`
-
-
-### How To Use It
-
-In order to run Firecracker manually:
-
-`python2 firecracker.py <config file>`
-
-In order to have Firecracker run on startup:
-
-1. clone this repo to some location `.../firecracker`
-2. `$ cd .../firecracker`
-3. put your desired configuration in `skins/example.cfg`
-4. `$ sudo bash install.sh`
-5. restart computer
-
-Press Ctrl+M with any widget selected in order to bring up the widget creator, or run `python2 firecracker_config_generator.py`.
 
 
 ### Notes
