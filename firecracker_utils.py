@@ -177,24 +177,24 @@ class FCItem(object):
 		self.link = False
 		self.process = ""
 		self.args = ""
-		self.sanitizer_map = {	"text"        :lambda x: str(x),
-								"pos_x"       :lambda x: int(x),
-								"pos_y"       :lambda x: int(x),
-								"size_w"      :lambda x: int(x),
-								"size_h"      :lambda x: int(x),
+		self.sanitizer_map = {	"text"        :str,
+								"pos_x"       :int,
+								"pos_y"       :int,
+								"size_w"      :int,
+								"size_h"      :int,
 								"alpha"       :lambda x: int(x)/100.0,
-								"font_size"   :lambda x: int(x),
-								"font_color"  :lambda x: str(x),
-								"font"        :lambda x: str(x),
-								"angle"       :lambda x: int(x),
-								"zip_code"    :lambda x: str(x),
-								"image"       :lambda x: str(x),
-								"image_w"     :lambda x: int(x),
-								"image_h"     :lambda x: int(x),
-								"update_timer":lambda x: int(x),
+								"font_size"   :int,
+								"font_color"  :str,
+								"font"        :str,
+								"angle"       :int,
+								"zip_code"    :str,
+								"image"       :str,
+								"image_w"     :int,
+								"image_h"     :int,
+								"update_timer":int,
 								"link"        :lambda x: True if x.lower() == "true" else False,
-								"process"     :lambda x: str(x),
-								"args"        :lambda x: str(x)	}
+								"process"     :str,
+								"args"        :str	}
 
 	def set_attribute(self, key, value):
 		if hasattr(self, key):
