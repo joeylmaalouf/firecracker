@@ -61,6 +61,9 @@ class FCWindow(object):
 		self.box.connect("button_release_event", self.onrelease)
 		self.box.connect("motion_notify_event", self.mousemove)
 		self.box.set_events(gtk.gdk.EXPOSURE_MASK | gtk.gdk.BUTTON_PRESS_MASK)
+		
+		if self.vals.type == "PLAYER":
+			self.label = gtk.Label('<<  ||  >>')
 
 		if self.vals.type == "IMAGE":
 			self.image = gtk.Image()
@@ -127,12 +130,20 @@ class FCWindow(object):
 			self.window.drag = True
 			self.drag_x = event.x
 			self.drag_y = event.y
+			if self.vals.type == 'PLAYER':
+				label_width = self.label.size_request()[0]
+				if self.drag_x < (label_width/3.0):
+					subprocess.call(['./spotify_controller.sh', 'previous'])
+				elif self.drag_x > (label_width/3) and self.drag_x < (2*label_width/3.0):
+					subprocess.call(['./spotify_controller.sh', 'playpause'])
+				elif self.drag_x > (2*label_width/3.0):
+					subprocess.call(['./spotify_controller.sh', 'next'])
 		elif event.type == gtk.gdk._2BUTTON_PRESS:
 			if self.vals.link:
 				try:
-					subprocess.call([self.vals.process, self.vals.args])
+					subprocess.call([self.vals.process, self.vals.args, '&'])
 				except:
-					subprocess.call(self.vals.process)
+					subprocess.call([self.vals.process, '&'])
 		
 
 	def onrelease(self, widget, event):
