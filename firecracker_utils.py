@@ -85,7 +85,7 @@ class FCWindow(object):
 			try:
 				data = loads(URL("http://api.openweathermap.org/data/2.5/weather?zip="+self.vals.zip_code+",us").download())
 				status = data["weather"][0]["description"].lower()
-				# status = {"clouds":"It's cloudy outside.", "clear":"It's clear outside.", "rain":"It's raining outside."}[status]
+				status = {"clouds":"cloudy", "clear":"clear", "rain":"rain"}[status]
 				temp = (float(data["main"]["temp"])-273.15)*9/5+32
 				weather_string =  "Weather: {0}\nTemperature: {1:0.2f} degrees Fahrenheit.".format(status, temp)
 			except:
