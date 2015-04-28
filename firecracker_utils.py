@@ -1,6 +1,7 @@
 import cairo
 import subprocess
 import psutil
+import time
 from datetime import datetime
 from json import loads
 from pattern.web import URL
@@ -31,7 +32,7 @@ class FCWindow(object):
 		self.vals = item
 		self.watcher = None
 
-		self.label = gtk.Label(item.text)
+		self.label = gtk.Label()
 		self.label.set_angle(item.angle)
 		self.label.set_markup("<span face='"+item.font+"' size='"+str(item.font_size*1000)+"'>"+str(item.text)+"</span>")
 		self.label.set_justify(gtk.JUSTIFY_CENTER)
@@ -63,7 +64,9 @@ class FCWindow(object):
 		self.box.set_events(gtk.gdk.EXPOSURE_MASK | gtk.gdk.BUTTON_PRESS_MASK)
 		
 		if self.vals.type == "PLAYER":
-			self.label = gtk.Label('<<  ||  >>')
+			self.label = gtk.Label()
+			paused_player_text = '&lt;&lt;  ||  &gt;&gt;'			
+			self.label.set_markup("<span face='"+item.font+"' size='"+str(item.font_size*1000)+"'>"+paused_player_text+"</span>")
 
 		if self.vals.type == "IMAGE":
 			self.image = gtk.Image()
@@ -101,7 +104,13 @@ class FCWindow(object):
 			memory_usage = psutil.virtual_memory().percent
 			performance_string = "CPU: {0}% || RAM: {1}% || DISK SPACE: {2}% ".format(cpu_usage, memory_usage, disk_space)
 			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+performance_string+"</span>")
-
+		elif self.vals.type == "PLAYER":
+			if subprocess.check_output(['./spotify_controller.sh', 'playstatus']) == 'Paused\n':
+				player_text = '&lt;&lt;  |&gt;  &gt;&gt;'			
+			else:
+				player_text = '&lt;&lt;  ||  &gt;&gt;'			
+			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+player_text+"</span>")
+	
 		return True
 
 	def key_press(self, widget, event):
@@ -134,7 +143,7 @@ class FCWindow(object):
 				label_width = self.label.size_request()[0]
 				if self.drag_x < (label_width/3.0):
 					subprocess.call(['./spotify_controller.sh', 'previous'])
-				elif self.drag_x > (label_width/3) and self.drag_x < (2*label_width/3.0):
+				elif self.drag_x > (label_width/3.0+label_width/12.0) and self.drag_x < (2*label_width/3.0-label_width/12.0):
 					subprocess.call(['./spotify_controller.sh', 'playpause'])
 				elif self.drag_x > (2*label_width/3.0):
 					subprocess.call(['./spotify_controller.sh', 'next'])
