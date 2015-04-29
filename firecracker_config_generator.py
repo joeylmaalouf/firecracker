@@ -17,7 +17,7 @@ class ConfigWindow(gtk.Window):
 
 		self.table = gtk.Table()
 		self.buttons = {}
-		for i, s in enumerate(["Text", "Clock", "Weather", "Image", "Performance"]):
+		for i, s in enumerate(["Text", "Clock", "Weather", "Image", "Performance", "Spotify"]):
 			self.buttons[s] = gtk.Button(s+" Widget")
 			self.buttons[s].connect("button_press_event", self.on_press)
 			self.table.attach(self.buttons[s], 0, 1, i, i+1)
@@ -26,7 +26,7 @@ class ConfigWindow(gtk.Window):
 
 	def on_press(self, widget, event):
 		s = widget.get_label()[:-7]
-		win = {"Text":TextWW, "Clock":ClockWW, "Weather":WeatherWW, "Image":ImageWW, "Performance":PerformanceWW}[s]()
+		win = {"Text":TextWW, "Clock":ClockWW, "Weather":WeatherWW, "Image":ImageWW, "Performance":PerformanceWW, "Spotify":SpotifyWW}[s]()
 		win.main()
 
 
@@ -413,6 +413,55 @@ class PerformanceWW(WidgetWindow):
 		time.sleep(0.15)
 		self.destroy()
 
+class SpotifyWW(WidgetWindow):
+	def __init__(self):
+		super(SpotifyWW, self).__init__()
+		self.set_title("Spotify Player")
+
+		self.label_color = gtk.Label("Color:")
+		self.form_color = gtk.ColorButton()
+		self.form_color.set_color(gtk.gdk.color_parse("#0000FFFF0000"))
+
+		self.label_size = gtk.Label("Size:")
+		self.form_size = gtk.SpinButton(adjustment = gtk.Adjustment(12.0, 2.0, 512.0, 1.0, 10.0, 0.0), digits = 0)
+
+		self.table.attach(self.label_path, 0, 2, 0, 1)
+		self.table.attach(self.form_path, 2, 4, 0, 1)
+		self.table.attach(self.label_pos, 0, 2, 1, 2)
+		self.table.attach(self.form_pos_x, 2, 3, 1, 2)
+		self.table.attach(self.form_pos_y, 3, 4, 1, 2)
+		self.table.attach(self.label_alpha, 0, 2, 2, 3)
+		self.table.attach(self.form_alpha, 2, 4, 2, 3)
+		self.table.attach(self.label_angle, 0, 2, 3, 4)
+		self.table.attach(self.form_angle, 2, 4, 3, 4)
+		self.table.attach(self.label_color, 0, 2, 4, 5)
+		self.table.attach(self.form_color, 2, 4, 4, 5)
+		self.table.attach(self.label_size, 0, 2, 5, 6)
+		self.table.attach(self.form_size, 2, 4, 5, 6)
+		self.table.attach(self.button_go, 0, 4, 12, 13)
+		self.add(self.table)
+		self.show_all()
+
+	def on_press(self, widget, event):
+		path = self.form_path.get_text()
+		string = "< PLAYER\n"
+		string += "pos_x = "+str(self.form_pos_x.get_value_as_int())+"\n"
+		string += "pos_y = "+str(self.form_pos_y.get_value_as_int())+"\n"
+		string += "alpha = "+str(int(100*self.form_alpha.get_value()))+"\n"
+		string += "angle = "+str(self.form_angle.get_value_as_int())+"\n"
+		string += "font_color = "+self.form_color.get_color().to_string()+"\n"
+		string += "font_size = "+str(self.form_size.get_value_as_int())+"\n"
+		string += "font = "+"Ubuntu"+"\n"
+		string += "update_timer = "+str(100*int(10*0.1))+"\n"
+		if self.form_link.get_active_text() == "true":
+			string += "process = "+self.form_process.get_text()+"\n"
+			string += "args = "+self.form_args.get_text()+"\n"
+		string += ">"+"\n\n"
+		f = open(path, "a" if exists(path) else "w")
+		f.write(string)
+		f.close()
+		time.sleep(0.15)
+		self.destroy()
 
 if __name__ == "__main__":
 	win = ConfigWindow()

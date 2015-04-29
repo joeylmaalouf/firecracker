@@ -106,7 +106,7 @@ class FCWindow(object):
 			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+performance_string+"</span>")
 		elif self.vals.type == "PLAYER":
 			if subprocess.check_output(['./spotify_controller.sh', 'playstatus']) == 'Paused\n':
-				player_text = '&lt;&lt;  |&gt;  &gt;&gt;'			
+				player_text = '&lt;&lt;  D  &gt;&gt;'			
 			else:
 				player_text = '&lt;&lt;  ||  &gt;&gt;'			
 			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+player_text+"</span>")
