@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from firecracker_utils import FCManager, FCWindow, FCItem, parse
+from firecracker_utils import FCManager, FCWindow, FCItem, parse_file
 import sys
 
 import pygtk
@@ -22,7 +22,7 @@ def main(argv):
 		print("You can use your own by typing")
 		print("    python2 "+argv[0].split("/")[-1]+" <path to config file>\n")
 
-	config_list = parse(argv[1])
+	config_list = parse_file(argv[1])
 	windows = [FCWindow(item) for item in config_list]
 	manager = FCManager()
 	for window in windows:

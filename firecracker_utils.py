@@ -248,7 +248,7 @@ class FCItem(object):
 			return False
 
 
-def parse(filepath):
+def parse_file(filepath):
 	""" The parsing function for reading configuration
 		files and creating a list of FCItems from them.
 	"""
@@ -278,3 +278,7 @@ def parse(filepath):
 
 	fileobj.close()
 	return datalist
+
+
+def parse_string(string):
+	pass

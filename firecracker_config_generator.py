@@ -3,7 +3,7 @@ pygtk.require("2.0")
 import gtk
 from os.path import exists
 import time
-from firecracker_utils import FCWindow, FCItem, parse
+from firecracker_utils import FCWindow, FCItem, parse_string
 
 
 class ConfigWindow(gtk.Window):
@@ -71,17 +71,25 @@ class WidgetWindow(gtk.Window):
 		self.form_args = gtk.Entry()
 		self.form_args.set_text("github.com")
 
-		self.button_preview = gtk.Button("Preview")
+		self.button_preview = gtk.Button("Preview Widget")
 		self.button_preview.connect("button_press_event", self.preview)
 
-		self.button_go = gtk.Button("Go!")
+		self.button_go = gtk.Button("Create Widget")
 		self.button_go.connect("button_press_event", self.on_press)
 
-	def on_press(self, widget, event):
-		self.quit()
+	def make_string(self):
+		return ""
 
 	def preview(self, widget, event):
-		pass
+		print(self.make_string())
+
+	def on_press(self, widget, event):
+		path = self.form_path.get_text()
+		f = open(path, "a" if exists(path) else "w")
+		f.write(self.make_string())
+		f.close()
+		time.sleep(0.15)
+		self.destroy()
 
 
 class TextWW(WidgetWindow):
@@ -132,8 +140,7 @@ class TextWW(WidgetWindow):
 		self.add(self.table)
 		self.show_all()
 
-	def on_press(self, widget, event):
-		path = self.form_path.get_text()
+	def make_string(self):
 		string = "< TEXT\n"
 		string += "pos_x = "+str(self.form_pos_x.get_value_as_int())+"\n"
 		string += "pos_y = "+str(self.form_pos_y.get_value_as_int())+"\n"
@@ -148,11 +155,7 @@ class TextWW(WidgetWindow):
 			string += "process = "+self.form_process.get_text()+"\n"
 			string += "args = "+self.form_args.get_text()+"\n"
 		string += ">"+"\n\n"
-		f = open(path, "a" if exists(path) else "w")
-		f.write(string)
-		f.close()
-		time.sleep(0.15)
-		self.destroy()
+		return string
 
 
 class ClockWW(WidgetWindow):
@@ -202,8 +205,7 @@ class ClockWW(WidgetWindow):
 		self.add(self.table)
 		self.show_all()
 
-	def on_press(self, widget, event):
-		path = self.form_path.get_text()
+	def make_string(self):
 		string = "< CLOCK\n"
 		string += "pos_x = "+str(self.form_pos_x.get_value_as_int())+"\n"
 		string += "pos_y = "+str(self.form_pos_y.get_value_as_int())+"\n"
@@ -218,11 +220,7 @@ class ClockWW(WidgetWindow):
 			string += "process = "+self.form_process.get_text()+"\n"
 			string += "args = "+self.form_args.get_text()+"\n"
 		string += ">"+"\n\n"
-		f = open(path, "a" if exists(path) else "w")
-		f.write(string)
-		f.close()
-		time.sleep(0.15)
-		self.destroy()
+		return string
 
 
 class WeatherWW(WidgetWindow):
@@ -278,8 +276,7 @@ class WeatherWW(WidgetWindow):
 		self.add(self.table)
 		self.show_all()
 
-	def on_press(self, widget, event):
-		path = self.form_path.get_text()
+	def make_string(self):
 		string = "< WEATHER\n"
 		string += "pos_x = "+str(self.form_pos_x.get_value_as_int())+"\n"
 		string += "pos_y = "+str(self.form_pos_y.get_value_as_int())+"\n"
@@ -295,11 +292,7 @@ class WeatherWW(WidgetWindow):
 			string += "process = "+self.form_process.get_text()+"\n"
 			string += "args = "+self.form_args.get_text()+"\n"
 		string += ">"+"\n\n"
-		f = open(path, "a" if exists(path) else "w")
-		f.write(string)
-		f.close()
-		time.sleep(0.15)
-		self.destroy()
+		return string
 
 
 class ImageWW(WidgetWindow):
@@ -338,8 +331,7 @@ class ImageWW(WidgetWindow):
 		self.add(self.table)
 		self.show_all()
 
-	def on_press(self, widget, event):
-		path = self.form_path.get_text()
+	def make_string(self):
 		string = "< IMAGE\n"
 		string += "pos_x = "+str(self.form_pos_x.get_value_as_int())+"\n"
 		string += "pos_y = "+str(self.form_pos_y.get_value_as_int())+"\n"
@@ -352,11 +344,7 @@ class ImageWW(WidgetWindow):
 			string += "process = "+self.form_process.get_text()+"\n"
 			string += "args = "+self.form_args.get_text()+"\n"
 		string += ">"+"\n\n"
-		f = open(path, "a" if exists(path) else "w")
-		f.write(string)
-		f.close()
-		time.sleep(0.15)
-		self.destroy()
+		return string
 
 
 class PerformanceWW(WidgetWindow):
@@ -406,8 +394,7 @@ class PerformanceWW(WidgetWindow):
 		self.add(self.table)
 		self.show_all()
 
-	def on_press(self, widget, event):
-		path = self.form_path.get_text()
+	def make_string(self):
 		string = "< PERFORMANCE\n"
 		string += "pos_x = "+str(self.form_pos_x.get_value_as_int())+"\n"
 		string += "pos_y = "+str(self.form_pos_y.get_value_as_int())+"\n"
@@ -422,11 +409,8 @@ class PerformanceWW(WidgetWindow):
 			string += "process = "+self.form_process.get_text()+"\n"
 			string += "args = "+self.form_args.get_text()+"\n"
 		string += ">"+"\n\n"
-		f = open(path, "a" if exists(path) else "w")
-		f.write(string)
-		f.close()
-		time.sleep(0.15)
-		self.destroy()
+		return string
+
 
 class SpotifyWW(WidgetWindow):
 	def __init__(self):
@@ -458,8 +442,7 @@ class SpotifyWW(WidgetWindow):
 		self.add(self.table)
 		self.show_all()
 
-	def on_press(self, widget, event):
-		path = self.form_path.get_text()
+	def make_string(self):
 		string = "< PLAYER\n"
 		string += "pos_x = "+str(self.form_pos_x.get_value_as_int())+"\n"
 		string += "pos_y = "+str(self.form_pos_y.get_value_as_int())+"\n"
@@ -470,11 +453,8 @@ class SpotifyWW(WidgetWindow):
 		string += "font = "+"Ubuntu"+"\n"
 		string += "update_timer = "+str(100*int(10*0.1))+"\n"
 		string += ">"+"\n\n"
-		f = open(path, "a" if exists(path) else "w")
-		f.write(string)
-		f.close()
-		time.sleep(0.15)
-		self.destroy()
+		return string
+
 
 if __name__ == "__main__":
 	win = ConfigWindow()
