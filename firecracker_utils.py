@@ -5,7 +5,7 @@ import time
 from datetime import datetime
 from json import loads
 from pattern.web import URL
-from firecracker_config_generator import ConfigWindow
+#from firecracker_config_generator import ConfigWindow
 
 import pygtk
 pygtk.require("2.0")
@@ -109,16 +109,18 @@ class FCWindow(object):
 			memory_usage = psutil.virtual_memory().percent
 			performance_string = "CPU: {0}% || RAM: {1}% || DISK SPACE: {2}%".format(cpu_usage, memory_usage, disk_space)
 			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+performance_string+"</span>")
+		
 		elif self.vals.type == "PLAYER":
-					try:
-						if subprocess.check_output(["./spotify_controller.sh", "playstatus"]) == "Paused\n":
-							player_text = "&lt;&lt;  D  &gt;&gt;"
-						else:
-							player_text = "&lt;&lt;  ||  &gt;&gt;"
-					except:
-						player_text = "Cannot connect to Spotify."
+			try:
+				if subprocess.check_output(["./spotify_controller.sh", "playstatus"]) == "Paused\n":
+					player_text = "&lt;&lt;  D  &gt;&gt;"
+				else:
+					player_text = "&lt;&lt;  ||  &gt;&gt;"
+			except:
+				player_text = "Cannot connect to Spotify."
 			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+player_text+"</span>")
-				self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.vals.font_color))
+		
+		self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.vals.font_color))
 
 		return True
 
@@ -132,9 +134,9 @@ class FCWindow(object):
 			self.watcher.num_windows -= 1
 			if self.watcher.num_windows == 0:
 				gtk.main_quit()
-		elif gtk.gdk.keyval_name(event.keyval) == "m":
-			if event.state & gtk.gdk.CONTROL_MASK:
-				ConfigWindow().main()
+#		elif gtk.gdk.keyval_name(event.keyval) == "m":
+#			if event.state & gtk.gdk.CONTROL_MASK:
+#				ConfigWindow().main()
 		elif gtk.gdk.keyval_name(event.keyval) == "Up":
 			y -= 5
 		elif gtk.gdk.keyval_name(event.keyval) == "Down":

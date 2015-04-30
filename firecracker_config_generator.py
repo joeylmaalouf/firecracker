@@ -3,6 +3,7 @@ pygtk.require("2.0")
 import gtk
 from os.path import exists
 import time
+from firecracker_utils import FCWindow, FCItem, parse
 
 
 class ConfigWindow(gtk.Window):
@@ -70,11 +71,17 @@ class WidgetWindow(gtk.Window):
 		self.form_args = gtk.Entry()
 		self.form_args.set_text("github.com")
 
+		self.button_preview = gtk.Button("Preview")
+		self.button_preview.connect("button_press_event", self.preview)
+
 		self.button_go = gtk.Button("Go!")
 		self.button_go.connect("button_press_event", self.on_press)
 
 	def on_press(self, widget, event):
 		self.quit()
+
+	def preview(self, widget, event):
+		pass
 
 
 class TextWW(WidgetWindow):
@@ -120,7 +127,8 @@ class TextWW(WidgetWindow):
 		self.table.attach(self.form_process, 2, 4, 9, 10)
 		self.table.attach(self.label_args, 0, 2, 10, 11)
 		self.table.attach(self.form_args, 2, 4, 10, 11)
-		self.table.attach(self.button_go, 0, 4, 11, 12)
+		self.table.attach(self.button_preview, 0, 4, 11, 12)
+		self.table.attach(self.button_go, 0, 4, 12, 13)
 		self.add(self.table)
 		self.show_all()
 
@@ -189,7 +197,8 @@ class ClockWW(WidgetWindow):
 		self.table.attach(self.form_process, 2, 4, 9, 10)
 		self.table.attach(self.label_args, 0, 2, 10, 11)
 		self.table.attach(self.form_args, 2, 4, 10, 11)
-		self.table.attach(self.button_go, 0, 4, 11, 12)
+		self.table.attach(self.button_preview, 0, 4, 11, 12)
+		self.table.attach(self.button_go, 0, 4, 12, 13)
 		self.add(self.table)
 		self.show_all()
 
@@ -264,7 +273,8 @@ class WeatherWW(WidgetWindow):
 		self.table.attach(self.form_process, 2, 4, 10, 11)
 		self.table.attach(self.label_args, 0, 2, 11, 12)
 		self.table.attach(self.form_args, 2, 4, 11, 12)
-		self.table.attach(self.button_go, 0, 4, 12, 13)
+		self.table.attach(self.button_preview, 0, 4, 12, 13)
+		self.table.attach(self.button_go, 0, 4, 13, 14)
 		self.add(self.table)
 		self.show_all()
 
@@ -323,7 +333,8 @@ class ImageWW(WidgetWindow):
 		self.table.attach(self.form_process, 2, 4, 6, 7)
 		self.table.attach(self.label_args, 0, 2, 7, 8)
 		self.table.attach(self.form_args, 2, 4, 7, 8)
-		self.table.attach(self.button_go, 0, 4, 8, 9)
+		self.table.attach(self.button_preview, 0, 4, 8, 9)
+		self.table.attach(self.button_go, 0, 4, 9, 10)
 		self.add(self.table)
 		self.show_all()
 
@@ -390,7 +401,8 @@ class PerformanceWW(WidgetWindow):
 		self.table.attach(self.form_process, 2, 4, 9, 10)
 		self.table.attach(self.label_args, 0, 2, 10, 11)
 		self.table.attach(self.form_args, 2, 4, 10, 11)
-		self.table.attach(self.button_go, 0, 4, 11, 12)
+		self.table.attach(self.button_preview, 0, 4, 11, 12)
+		self.table.attach(self.button_go, 0, 4, 12, 13)
 		self.add(self.table)
 		self.show_all()
 
@@ -419,7 +431,7 @@ class PerformanceWW(WidgetWindow):
 class SpotifyWW(WidgetWindow):
 	def __init__(self):
 		super(SpotifyWW, self).__init__()
-		self.set_title("Spotify Player")
+		self.set_title("Spotify Widget")
 
 		self.label_color = gtk.Label("Color:")
 		self.form_color = gtk.ColorButton()
@@ -441,7 +453,8 @@ class SpotifyWW(WidgetWindow):
 		self.table.attach(self.form_color, 2, 4, 4, 5)
 		self.table.attach(self.label_size, 0, 2, 5, 6)
 		self.table.attach(self.form_size, 2, 4, 5, 6)
-		self.table.attach(self.button_go, 0, 4, 12, 13)
+		self.table.attach(self.button_preview, 0, 4, 6, 7)
+		self.table.attach(self.button_go, 0, 4, 7, 8)
 		self.add(self.table)
 		self.show_all()
 
