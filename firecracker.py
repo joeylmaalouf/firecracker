@@ -8,11 +8,14 @@ import gtk
 
 
 def main(argv):
+	""" Wrapper for firecracker application. Can be run with specific path to config file or
+	with the default config file 'example.cfg'
+	"""
 	if len(argv) > 2:
 		print("Firecracker requires an input of exactly one skin configuration file.")
 		return
 	elif len(argv) < 2:
-		argv.append("/".join(argv[0].split("/")[:-1])+"/skins/example.cfg")
+		argv.append("/".join(argv[0].split("/")[:-1])+"./skins/example.cfg")
 		print("\nThis demo uses the provided example configuration.")
 		print("You can use your own by typing")
 		print("    python2 "+argv[0].split("/")[-1]+" <path to config file>\n")

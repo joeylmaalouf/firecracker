@@ -20,6 +20,8 @@ class FCManager(object):
 		self.num_windows = 0
 
 	def watch(self, window):
+		""" Watches number of window on screen 
+		"""
 		self.num_windows += 1
 		window.watcher = self
 
@@ -82,6 +84,9 @@ class FCWindow(object):
 
 
 	def update(self):
+		""" On non-static widgets, updates with live information. Clock pulls fromr time library, weather makes
+		api call, and performance uses psutil library to check computer information.
+		"""
 		if self.vals.type == "CLOCK":
 			time = datetime.now().time()
 			time_string = "{0:02d}:{1:02d}:{2:02d}".format(time.hour, time.minute, time.second)
@@ -114,6 +119,8 @@ class FCWindow(object):
 		return True
 
 	def key_press(self, widget, event):
+		""" listens for key inputs from user and updates widget location or deletes widget.
+		"""
 		x, y = self.window.get_position()
 
 		if gtk.gdk.keyval_name(event.keyval) == "Escape":
@@ -135,6 +142,9 @@ class FCWindow(object):
 		self.window.move(x, y)
 
 	def onclick (self, widget, event):
+		""" Tracks user clicking and allows for dragging and relocating of windows. Also incudes functionality
+		from music player widget.
+		"""
 		if event.type == gtk.gdk.BUTTON_PRESS:
 			self.window.drag = True
 			self.drag_x = event.x
@@ -156,13 +166,19 @@ class FCWindow(object):
 		
 
 	def onrelease(self, widget, event):
+		"""When click is released, windows can no longer drag
+		"""
 		self.window.drag = False
 
 	def mousemove(self, widget, event):
+		"""Tracks the moving of the mouse when dragging widgets
+		"""
 		x, y = self.window.get_position()
 		self.window.move(x+int(event.x-self.drag_x), y+int(event.y-self.drag_y))
 
 	def transparent_expose(self, widget, event):
+		""" Usese Cairo library to make widgets have transparent windows
+		"""
 		cr = widget.window.cairo_create()
 		cr.set_operator(cairo.OPERATOR_CLEAR)
 		region = gtk.gdk.region_rectangle(event.area)
@@ -217,6 +233,8 @@ class FCItem(object):
 								"args"        :str	}
 
 	def set_attribute(self, key, value):
+		"""Sets attributes from dictionary to the widget
+		"""
 		if hasattr(self, key):
 			self.__setattr__(key, self.sanitizer_map[key](value))
 			return True
