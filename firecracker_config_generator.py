@@ -6,6 +6,9 @@ import time
 
 
 class ConfigWindow(gtk.Window):
+	""" This is the selection window, where the
+		user chooses which type of widget to add.
+	"""
 	def __init__(self):
 		super(ConfigWindow, self).__init__()
 		self.main = gtk.main
