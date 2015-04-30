@@ -110,12 +110,16 @@ class FCWindow(object):
 			performance_string = "CPU: {0}% || RAM: {1}% || DISK SPACE: {2}% ".format(cpu_usage, memory_usage, disk_space)
 			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+performance_string+"</span>")
 		elif self.vals.type == "PLAYER":
-			if subprocess.check_output(['./spotify_controller.sh', 'playstatus']) == 'Paused\n':
+                    try:
+                        if subprocess.check_output(['./spotify_controller.sh', 'playstatus']) == 'Paused\n':
 				player_text = '&lt;&lt;  D  &gt;&gt;'			
 			else:
-				player_text = '&lt;&lt;  ||  &gt;&gt;'			
-			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+player_text+"</span>")
-	
+				player_text = '&lt;&lt;  ||  &gt;&gt;'
+                    except:
+                        player_text = "Cannot connect to Spotify"
+		    self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+player_text+"</span>")
+	            self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.vals.font_color))
+
 		return True
 
 	def key_press(self, widget, event):
