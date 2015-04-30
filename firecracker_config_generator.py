@@ -3,7 +3,7 @@ pygtk.require("2.0")
 import gtk
 from os.path import exists
 import time
-from firecracker_utils import FCWindow, FCItem, parse_string
+from firecracker_utils import FCManager, FCWindow, FCItem, parse_string
 
 
 class ConfigWindow(gtk.Window):
@@ -81,7 +81,10 @@ class WidgetWindow(gtk.Window):
 		return ""
 
 	def preview(self, widget, event):
-		print(self.make_string())
+		win = FCWindow(parse_string(self.make_string().split("\n"))[0])
+		win.window.set_keep_above(True)
+		win.update()
+		gtk.timeout_add(win.vals.update_timer, win.update)
 
 	def on_press(self, widget, event):
 		path = self.form_path.get_text()

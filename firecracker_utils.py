@@ -131,9 +131,10 @@ class FCWindow(object):
 
 		if gtk.gdk.keyval_name(event.keyval) == "Escape":
 			self.window.destroy()
-			self.watcher.num_windows -= 1
-			if self.watcher.num_windows == 0:
-				gtk.main_quit()
+			if self.watcher is not None:
+				self.watcher.num_windows -= 1
+				if self.watcher.num_windows == 0:
+					gtk.main_quit()
 #		elif gtk.gdk.keyval_name(event.keyval) == "m":
 #			if event.state & gtk.gdk.CONTROL_MASK:
 #				ConfigWindow().main()
@@ -183,7 +184,7 @@ class FCWindow(object):
 		self.window.move(x+int(event.x-self.drag_x), y+int(event.y-self.drag_y))
 
 	def transparent_expose(self, widget, event):
-		""" Usese Cairo library to make widgets have transparent windows
+		""" Uses Cairo to make widgets have transparent windows
 		"""
 		cr = widget.window.cairo_create()
 		cr.set_operator(cairo.OPERATOR_CLEAR)
@@ -252,12 +253,18 @@ def parse_file(filepath):
 	""" The parsing function for reading configuration
 		files and creating a list of FCItems from them.
 	"""
+	fileobj = open(filepath, "r")
+	linelist = fileobj.readlines()
+	fileobj.close()
+	return parse_string(linelist)
+
+
+def parse_string(linelist):
 	datalist = []
 	item = None
 	in_item = False
-	fileobj = open(filepath, "r")
 
-	for line in fileobj:
+	for line in linelist:
 		line = line.strip()
 		
 		if len(line) == 0:
@@ -276,9 +283,4 @@ def parse_file(filepath):
 			key = key.lower()
 			item.set_attribute(key, val)
 
-	fileobj.close()
 	return datalist
-
-
-def parse_string(string):
-	pass
