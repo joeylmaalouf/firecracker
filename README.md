@@ -43,11 +43,11 @@ Pattern
 
 `sudo pip2 install pattern`
 
-psutil
+PSUtil
 
 `sudo pip2 install psutil`
 
-spotify
+Spotify
 
 `sudo apt-add-repository -y "deb http://repository.spotify.com stable non-free" &&
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 94558F59 &&

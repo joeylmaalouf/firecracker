@@ -105,20 +105,20 @@ class FCWindow(object):
 
 		elif self.vals.type == "PERFORMANCE":
 			cpu_usage = psutil.cpu_percent()
-			disk_space = psutil.disk_usage('/').percent
+			disk_space = psutil.disk_usage("/").percent
 			memory_usage = psutil.virtual_memory().percent
-			performance_string = "CPU: {0}% || RAM: {1}% || DISK SPACE: {2}% ".format(cpu_usage, memory_usage, disk_space)
+			performance_string = "CPU: {0}% || RAM: {1}% || DISK SPACE: {2}%".format(cpu_usage, memory_usage, disk_space)
 			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+performance_string+"</span>")
 		elif self.vals.type == "PLAYER":
-                    try:
-                        if subprocess.check_output(['./spotify_controller.sh', 'playstatus']) == 'Paused\n':
-				player_text = '&lt;&lt;  D  &gt;&gt;'			
-			else:
-				player_text = '&lt;&lt;  ||  &gt;&gt;'
-                    except:
-                        player_text = "Cannot connect to Spotify"
-		    self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+player_text+"</span>")
-	            self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.vals.font_color))
+					try:
+						if subprocess.check_output(["./spotify_controller.sh", "playstatus"]) == "Paused\n":
+							player_text = "&lt;&lt;  D  &gt;&gt;"
+						else:
+							player_text = "&lt;&lt;  ||  &gt;&gt;"
+					except:
+						player_text = "Cannot connect to Spotify."
+			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+player_text+"</span>")
+				self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.vals.font_color))
 
 		return True
 
@@ -153,20 +153,20 @@ class FCWindow(object):
 			self.window.drag = True
 			self.drag_x = event.x
 			self.drag_y = event.y
-			if self.vals.type == 'PLAYER':
+			if self.vals.type == "PLAYER":
 				label_width = self.label.size_request()[0]
 				if self.drag_x < (label_width/3.0):
-					subprocess.call(['./spotify_controller.sh', 'previous'])
+					subprocess.call(["./spotify_controller.sh", "previous"])
 				elif self.drag_x > (label_width/3.0+label_width/12.0) and self.drag_x < (2*label_width/3.0-label_width/12.0):
-					subprocess.call(['./spotify_controller.sh', 'playpause'])
+					subprocess.call(["./spotify_controller.sh", "playpause"])
 				elif self.drag_x > (2*label_width/3.0):
-					subprocess.call(['./spotify_controller.sh', 'next'])
+					subprocess.call(["./spotify_controller.sh", "next"])
 		elif event.type == gtk.gdk._2BUTTON_PRESS:
 			if self.vals.link:
 				try:
-					subprocess.call([self.vals.process, self.vals.args, '&'])
+					subprocess.call([self.vals.process, self.vals.args, "&"])
 				except:
-					subprocess.call([self.vals.process, '&'])
+					subprocess.call([self.vals.process, "&"])
 		
 
 	def onrelease(self, widget, event):
