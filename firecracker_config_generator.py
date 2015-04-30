@@ -1,9 +1,9 @@
+from firecracker_utils import FCWindow, FCItem, parse_string
+from os.path import exists
+import time
 import pygtk
 pygtk.require("2.0")
 import gtk
-from os.path import exists
-import time
-from firecracker_utils import FCManager, FCWindow, FCItem, parse_string
 
 
 class ConfigWindow(gtk.Window):
@@ -71,10 +71,10 @@ class WidgetWindow(gtk.Window):
 		self.form_args = gtk.Entry()
 		self.form_args.set_text("github.com")
 
-		self.button_preview = gtk.Button("Preview Widget")
+		self.button_preview = gtk.Button("Preview (ESC to close)")
 		self.button_preview.connect("button_press_event", self.preview)
 
-		self.button_go = gtk.Button("Create Widget")
+		self.button_go = gtk.Button("Create Widget!")
 		self.button_go.connect("button_press_event", self.on_press)
 
 	def make_string(self):

@@ -1,7 +1,6 @@
 #!/usr/bin/python
 from firecracker_utils import FCManager, FCWindow, FCItem, parse_file
 import sys
-
 import pygtk
 pygtk.require("2.0")
 import gtk

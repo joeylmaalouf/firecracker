@@ -5,8 +5,6 @@ import time
 from datetime import datetime
 from json import loads
 from pattern.web import URL
-#from firecracker_config_generator import ConfigWindow
-
 import pygtk
 pygtk.require("2.0")
 import gtk
@@ -135,9 +133,9 @@ class FCWindow(object):
 				self.watcher.num_windows -= 1
 				if self.watcher.num_windows == 0:
 					gtk.main_quit()
-#		elif gtk.gdk.keyval_name(event.keyval) == "m":
-#			if event.state & gtk.gdk.CONTROL_MASK:
-#				ConfigWindow().main()
+		elif gtk.gdk.keyval_name(event.keyval) == "m":
+			if event.state & gtk.gdk.CONTROL_MASK:
+				subprocess.call(["python2", "./firecracker_config_generator.py"])
 		elif gtk.gdk.keyval_name(event.keyval) == "Up":
 			y -= 5
 		elif gtk.gdk.keyval_name(event.keyval) == "Down":
