@@ -453,9 +453,6 @@ class SpotifyWW(WidgetWindow):
 		string += "font_size = "+str(self.form_size.get_value_as_int())+"\n"
 		string += "font = "+"Ubuntu"+"\n"
 		string += "update_timer = "+str(100*int(10*0.1))+"\n"
-		if self.form_link.get_active_text() == "true":
-			string += "process = "+self.form_process.get_text()+"\n"
-			string += "args = "+self.form_args.get_text()+"\n"
 		string += ">"+"\n\n"
 		f = open(path, "a" if exists(path) else "w")
 		f.write(string)
