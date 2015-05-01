@@ -36,6 +36,8 @@ class FCWindow(object):
 
 		self.label = gtk.Label()
 		self.label.set_angle(item.angle)
+                if self.vals.type == "PLAYER":
+			item.text = '&lt;&lt;  ||  &gt;&gt;'			
 		self.label.set_markup("<span face='"+item.font+"' size='"+str(item.font_size*1000)+"'>"+str(item.text)+"</span>")
 		self.label.set_justify(gtk.JUSTIFY_CENTER)
 		self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(item.font_color))
@@ -65,11 +67,6 @@ class FCWindow(object):
 		self.box.connect("motion_notify_event", self.mousemove)
 		self.box.set_events(gtk.gdk.EXPOSURE_MASK | gtk.gdk.BUTTON_PRESS_MASK)
 		
-		if self.vals.type == "PLAYER":
-			self.label = gtk.Label()
-			paused_player_text = '&lt;&lt;  ||  &gt;&gt;'			
-			self.label.set_markup("<span face='"+item.font+"' size='"+str(item.font_size*1000)+"'>"+paused_player_text+"</span>")
-
 		if self.vals.type == "IMAGE":
 			self.image = gtk.Image()
 			pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(item.image, width = item.image_w, height = item.image_h)
@@ -113,12 +110,12 @@ class FCWindow(object):
                     try:
                         if subprocess.check_output(['./spotify_controller.sh', 'playstatus']) == 'Paused\n':
 				player_text = '&lt;&lt;  D  &gt;&gt;'			
-			else:
+                        elif subprocess.check_output(['./spotify_controller.sh','playstatus']) == 'Playing\n':
 				player_text = '&lt;&lt;  ||  &gt;&gt;'
                     except:
                         player_text = "Cannot connect to Spotify"
 		    self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+player_text+"</span>")
-	            self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.vals.font_color))
+	            #self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.vals.font_color))
 
 		return True
 
