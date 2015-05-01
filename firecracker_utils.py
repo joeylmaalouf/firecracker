@@ -5,8 +5,6 @@ import time
 from datetime import datetime
 from json import loads
 from pattern.web import URL
-from firecracker_config_generator import ConfigWindow
-
 import pygtk
 pygtk.require("2.0")
 import gtk
@@ -36,7 +34,7 @@ class FCWindow(object):
 
 		self.label = gtk.Label()
 		self.label.set_angle(item.angle)
-                if self.vals.type == "PLAYER":
+        if self.vals.type == "PLAYER":
 			item.text = '&lt;&lt;  ||  &gt;&gt;'			
 		self.label.set_markup("<span face='"+item.font+"' size='"+str(item.font_size*1000)+"'>"+str(item.text)+"</span>")
 		self.label.set_justify(gtk.JUSTIFY_CENTER)
@@ -102,11 +100,13 @@ class FCWindow(object):
 
 		elif self.vals.type == "PERFORMANCE":
 			cpu_usage = psutil.cpu_percent()
-			disk_space = psutil.disk_usage('/').percent
+			disk_space = psutil.disk_usage("/").percent
 			memory_usage = psutil.virtual_memory().percent
-			performance_string = "CPU: {0}% || RAM: {1}% || DISK SPACE: {2}% ".format(cpu_usage, memory_usage, disk_space)
+			performance_string = "CPU: {0}% || RAM: {1}% || DISK SPACE: {2}%".format(cpu_usage, memory_usage, disk_space)
 			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+performance_string+"</span>")
+		
 		elif self.vals.type == "PLAYER":
+<<<<<<< HEAD
                     try:
                         if subprocess.check_output(['./spotify_controller.sh', 'playstatus']) == 'Paused\n':
 				player_text = '&lt;&lt;  D  &gt;&gt;'			
@@ -116,6 +116,18 @@ class FCWindow(object):
                         player_text = "Cannot connect to Spotify"
 		    self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+player_text+"</span>")
 	            #self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.vals.font_color))
+=======
+			try:
+				if subprocess.check_output(["./spotify_controller.sh", "playstatus"]) == "Paused\n":
+					player_text = "&lt;&lt;  D  &gt;&gt;"
+				else:
+					player_text = "&lt;&lt;  ||  &gt;&gt;"
+			except:
+				player_text = "Cannot connect to Spotify."
+			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+player_text+"</span>")
+		
+		self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.vals.font_color))
+>>>>>>> c9b5858f89678562d514a934137b7e9b4dd75d6b
 
 		return True
 
@@ -126,12 +138,13 @@ class FCWindow(object):
 
 		if gtk.gdk.keyval_name(event.keyval) == "Escape":
 			self.window.destroy()
-			self.watcher.num_windows -= 1
-			if self.watcher.num_windows == 0:
-				gtk.main_quit()
+			if self.watcher is not None:
+				self.watcher.num_windows -= 1
+				if self.watcher.num_windows == 0:
+					gtk.main_quit()
 		elif gtk.gdk.keyval_name(event.keyval) == "m":
 			if event.state & gtk.gdk.CONTROL_MASK:
-				ConfigWindow().main()
+				subprocess.call(["python2", "./firecracker_config_generator.py"])
 		elif gtk.gdk.keyval_name(event.keyval) == "Up":
 			y -= 5
 		elif gtk.gdk.keyval_name(event.keyval) == "Down":
@@ -150,20 +163,20 @@ class FCWindow(object):
 			self.window.drag = True
 			self.drag_x = event.x
 			self.drag_y = event.y
-			if self.vals.type == 'PLAYER':
+			if self.vals.type == "PLAYER":
 				label_width = self.label.size_request()[0]
 				if self.drag_x < (label_width/3.0):
-					subprocess.call(['./spotify_controller.sh', 'previous'])
+					subprocess.call(["./spotify_controller.sh", "previous"])
 				elif self.drag_x > (label_width/3.0+label_width/12.0) and self.drag_x < (2*label_width/3.0-label_width/12.0):
-					subprocess.call(['./spotify_controller.sh', 'playpause'])
+					subprocess.call(["./spotify_controller.sh", "playpause"])
 				elif self.drag_x > (2*label_width/3.0):
-					subprocess.call(['./spotify_controller.sh', 'next'])
+					subprocess.call(["./spotify_controller.sh", "next"])
 		elif event.type == gtk.gdk._2BUTTON_PRESS:
 			if self.vals.link:
 				try:
-					subprocess.call([self.vals.process, self.vals.args, '&'])
+					subprocess.call([self.vals.process, self.vals.args, "&"])
 				except:
-					subprocess.call([self.vals.process, '&'])
+					subprocess.call([self.vals.process, "&"])
 		
 
 	def onrelease(self, widget, event):
@@ -178,7 +191,7 @@ class FCWindow(object):
 		self.window.move(x+int(event.x-self.drag_x), y+int(event.y-self.drag_y))
 
 	def transparent_expose(self, widget, event):
-		""" Usese Cairo library to make widgets have transparent windows
+		""" Uses Cairo to make widgets have transparent windows
 		"""
 		cr = widget.window.cairo_create()
 		cr.set_operator(cairo.OPERATOR_CLEAR)
@@ -243,16 +256,22 @@ class FCItem(object):
 			return False
 
 
-def parse(filepath):
+def parse_file(filepath):
 	""" The parsing function for reading configuration
 		files and creating a list of FCItems from them.
 	"""
+	fileobj = open(filepath, "r")
+	linelist = fileobj.readlines()
+	fileobj.close()
+	return parse_string(linelist)
+
+
+def parse_string(linelist):
 	datalist = []
 	item = None
 	in_item = False
-	fileobj = open(filepath, "r")
 
-	for line in fileobj:
+	for line in linelist:
 		line = line.strip()
 		
 		if len(line) == 0:
@@ -271,5 +290,4 @@ def parse(filepath):
 			key = key.lower()
 			item.set_attribute(key, val)
 
-	fileobj.close()
 	return datalist

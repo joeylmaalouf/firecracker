@@ -1,7 +1,6 @@
 #!/usr/bin/python
-from firecracker_utils import FCManager, FCWindow, FCItem, parse
+from firecracker_utils import FCManager, FCWindow, FCItem, parse_file
 import sys
-
 import pygtk
 pygtk.require("2.0")
 import gtk
@@ -15,12 +14,14 @@ def main(argv):
 		print("Firecracker requires an input of exactly one skin configuration file.")
 		return
 	elif len(argv) < 2:
-		argv.append("/".join(argv[0].split("/")[:-1])+"/skins/example.cfg")
+		path = "/".join(argv[0].split("/")[:-1])
+		if path == "": path = "."
+		argv.append(path+"/skins/example.cfg")
 		print("\nThis demo uses the provided example configuration.")
 		print("You can use your own by typing")
 		print("    python2 "+argv[0].split("/")[-1]+" <path to config file>\n")
 
-	config_list = parse(argv[1])
+	config_list = parse_file(argv[1])
 	windows = [FCWindow(item) for item in config_list]
 	manager = FCManager()
 	for window in windows:
