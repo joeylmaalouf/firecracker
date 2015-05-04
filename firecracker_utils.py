@@ -34,8 +34,8 @@ class FCWindow(object):
 
 		self.label = gtk.Label()
 		self.label.set_angle(item.angle)
-        if self.vals.type == "PLAYER":
-			item.text = '&lt;&lt;  ||  &gt;&gt;'			
+		if self.vals.type == "PLAYER":
+			item.text = "&lt;&lt;  ||  &gt;&gt;"
 		self.label.set_markup("<span face='"+item.font+"' size='"+str(item.font_size*1000)+"'>"+str(item.text)+"</span>")
 		self.label.set_justify(gtk.JUSTIFY_CENTER)
 		self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(item.font_color))
@@ -106,28 +106,14 @@ class FCWindow(object):
 			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+performance_string+"</span>")
 		
 		elif self.vals.type == "PLAYER":
-<<<<<<< HEAD
-                    try:
-                        if subprocess.check_output(['./spotify_controller.sh', 'playstatus']) == 'Paused\n':
-				player_text = '&lt;&lt;  D  &gt;&gt;'			
-                        elif subprocess.check_output(['./spotify_controller.sh','playstatus']) == 'Playing\n':
-				player_text = '&lt;&lt;  ||  &gt;&gt;'
-                    except:
-                        player_text = "Cannot connect to Spotify"
-		    self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+player_text+"</span>")
-	            #self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.vals.font_color))
-=======
-			try:
-				if subprocess.check_output(["./spotify_controller.sh", "playstatus"]) == "Paused\n":
-					player_text = "&lt;&lt;  D  &gt;&gt;"
-				else:
-					player_text = "&lt;&lt;  ||  &gt;&gt;"
-			except:
+			if subprocess.check_output(["./spotify_controller.sh", "playstatus"]) == "Paused\n":
+				player_text = "&lt;&lt;  D  &gt;&gt;"
+			elif subprocess.check_output(["./spotify_controller.sh", "playstatus"]) == "Playing\n":
+				player_text = "&lt;&lt;  ||  &gt;&gt;"
+			else:
 				player_text = "Cannot connect to Spotify."
 			self.label.set_markup("<span face='"+self.vals.font+"' size='"+str(self.vals.font_size*1000)+"'>"+player_text+"</span>")
-		
-		self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.vals.font_color))
->>>>>>> c9b5858f89678562d514a934137b7e9b4dd75d6b
+#			self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.vals.font_color))
 
 		return True
 
