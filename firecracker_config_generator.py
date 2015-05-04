@@ -29,12 +29,18 @@ class ConfigWindow(gtk.Window):
 		self.show_all()
 
 	def on_press(self, widget, event):
+		""" When any of the buttons are pressed,
+			create the corresponding widget window.
+		"""
 		s = widget.get_label()[:-7]
 		win = {"Text":TextWW, "Clock":ClockWW, "Weather":WeatherWW, "Image":ImageWW, "Performance":PerformanceWW, "Spotify":SpotifyWW}[s]()
 		win.main()
 
 
 class WidgetWindow(gtk.Window):
+	""" This is the base widget class, from
+		which the specific widgets inherit.
+	"""
 	def __init__(self):
 		super(WidgetWindow, self).__init__()
 		self.main = gtk.main
@@ -78,15 +84,23 @@ class WidgetWindow(gtk.Window):
 		self.button_go.connect("button_press_event", self.on_press)
 
 	def make_string(self):
+		""" To be overridden by the
+			specific widget window classes.
+		"""
 		return ""
 
 	def preview(self, widget, event):
+		""" Preview the current settings.
+		"""
 		win = FCWindow(parse_string(self.make_string().split("\n"))[0])
 		win.window.set_keep_above(True)
 		win.update()
 		gtk.timeout_add(win.vals.update_timer, win.update)
 
 	def on_press(self, widget, event):
+		""" Save the window configuration
+			to the specified file.
+		"""
 		path = self.form_path.get_text()
 		f = open(path, "a" if exists(path) else "w")
 		f.write(self.make_string())
@@ -96,6 +110,9 @@ class WidgetWindow(gtk.Window):
 
 
 class TextWW(WidgetWindow):
+	""" This is the text widget creator, where the
+		user sets the properties of a text label.
+	"""
 	def __init__(self):
 		super(TextWW, self).__init__()
 		self.set_title("Text Widget")
@@ -162,6 +179,9 @@ class TextWW(WidgetWindow):
 
 
 class ClockWW(WidgetWindow):
+	""" This is the clock widget creator, where the user
+		sets the properties of a display of the current time.
+	"""
 	def __init__(self):
 		super(ClockWW, self).__init__()
 		self.set_title("Clock Widget")
@@ -227,6 +247,10 @@ class ClockWW(WidgetWindow):
 
 
 class WeatherWW(WidgetWindow):
+	""" This is the weather widget creator, where the user
+		sets the properties of a display of the current
+		weather status and temperature.
+	"""
 	def __init__(self):
 		super(WeatherWW, self).__init__()
 		self.set_title("Weather Widget")
@@ -299,6 +323,9 @@ class WeatherWW(WidgetWindow):
 
 
 class ImageWW(WidgetWindow):
+	""" This is the image widget creator, where the
+		user sets the properties of an image display.
+	"""
 	def __init__(self):
 		super(ImageWW, self).__init__()
 		self.set_title("Image Widget")
@@ -351,6 +378,10 @@ class ImageWW(WidgetWindow):
 
 
 class PerformanceWW(WidgetWindow):
+	""" This is the performance widget creator, where the
+		user sets the properties of a display of the
+		computer's current performance and usage.
+	"""
 	def __init__(self):
 		super(PerformanceWW, self).__init__()
 		self.set_title("Performance Widget")
@@ -416,6 +447,9 @@ class PerformanceWW(WidgetWindow):
 
 
 class SpotifyWW(WidgetWindow):
+	""" This is the Spotify widget creator, where the user
+		sets the properties of an audio playback controller.
+	"""
 	def __init__(self):
 		super(SpotifyWW, self).__init__()
 		self.set_title("Spotify Widget")

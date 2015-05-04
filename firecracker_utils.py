@@ -18,7 +18,7 @@ class FCManager(object):
 		self.num_windows = 0
 
 	def watch(self, window):
-		""" Watches number of window on screen 
+		""" Add a window to be watched for closing.
 		"""
 		self.num_windows += 1
 		window.watcher = self
@@ -79,8 +79,8 @@ class FCWindow(object):
 
 
 	def update(self):
-		""" On non-static widgets, updates with live information. Clock pulls fromr time library, weather makes
-		api call, and performance uses psutil library to check computer information.
+		""" On non-static widgets, updates with live information. Clock updates the current time,
+			weather makes a web API call, and performance uses psutil to check the current status.
 		"""
 		if self.vals.type == "CLOCK":
 			time = datetime.now().time()
@@ -118,7 +118,8 @@ class FCWindow(object):
 		return True
 
 	def key_press(self, widget, event):
-		""" listens for key inputs from user and updates widget location or deletes widget.
+		""" Based on the key pressed by the user,
+			updates widget location or deletes widget.
 		"""
 		x, y = self.window.get_position()
 
@@ -142,8 +143,8 @@ class FCWindow(object):
 		self.window.move(x, y)
 
 	def onclick (self, widget, event):
-		""" Tracks user clicking and allows for dragging and relocating of windows. Also incudes functionality
-		from music player widget.
+		""" Tracks user clicking and allows for dragging and relocating of windows.
+			Also incudes music player widget functionality.
 		"""
 		if event.type == gtk.gdk.BUTTON_PRESS:
 			self.window.drag = True
@@ -166,18 +167,18 @@ class FCWindow(object):
 		
 
 	def onrelease(self, widget, event):
-		"""When click is released, windows can no longer drag
+		""" When click is released, windows can no longer drag.
 		"""
 		self.window.drag = False
 
 	def mousemove(self, widget, event):
-		"""Tracks the moving of the mouse when dragging widgets
+		""" Tracks the moving of the mouse when dragging widgets.
 		"""
 		x, y = self.window.get_position()
 		self.window.move(x+int(event.x-self.drag_x), y+int(event.y-self.drag_y))
 
 	def transparent_expose(self, widget, event):
-		""" Uses Cairo to make widgets have transparent windows
+		""" Uses Cairo to make widgets have transparent windows.
 		"""
 		cr = widget.window.cairo_create()
 		cr.set_operator(cairo.OPERATOR_CLEAR)
@@ -233,7 +234,7 @@ class FCItem(object):
 								"args"        :str	}
 
 	def set_attribute(self, key, value):
-		"""Sets attributes from dictionary to the widget
+		""" Sets widget attributes, modifying the values as appropriate.
 		"""
 		if hasattr(self, key):
 			self.__setattr__(key, self.sanitizer_map[key](value))
@@ -243,8 +244,9 @@ class FCItem(object):
 
 
 def parse_file(filepath):
-	""" The parsing function for reading configuration
-		files and creating a list of FCItems from them.
+	""" The wrapper for parsing, which allows
+		the user to specify a filepath instead
+		of a list of lines.
 	"""
 	fileobj = open(filepath, "r")
 	linelist = fileobj.readlines()
@@ -253,6 +255,9 @@ def parse_file(filepath):
 
 
 def parse_string(linelist):
+	""" The parsing function for reading configuration
+		settings and creating a list of FCItems from them.
+	"""
 	datalist = []
 	item = None
 	in_item = False
