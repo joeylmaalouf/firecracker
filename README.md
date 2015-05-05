@@ -12,7 +12,7 @@ Firecracker is a fanmade rewrite of Rainmeter for Ubuntu. Just like Rainmeter, F
 
 ### Why?
 
-This is our final project for SoftDes Spring 2015 at Olin.
+This is our final project for SoftDes Spring 2015 at Olin. We enjoy using Rainmeter on Windows, and we found that Ubuntu lacks that functionality, so we decided to add it ourselves.
 
 
 ### How To Use It
@@ -58,3 +58,15 @@ sudo apt-get install spotify-client`
 ### Notes
 
 If your system does not have both Python 2 and Python 3 installed, you should be able to use `pip` and `python` instead of `pip2` and `python2`.
+
+
+### Attribution:
+
+spotify_controller.sh - https://github.com/computerlove/scripts/blob/master/SpotifyControl
+
+
+### Screenshots:
+
+![Screenshot1](https://raw.githubusercontent.com/joeylmaalouf/firecracker/master/images/snapshot.png)
+
+![Screenshot2](https://raw.githubusercontent.com/joeylmaalouf/firecracker/master/images/screenCap.png)
