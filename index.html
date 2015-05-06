@@ -101,6 +101,17 @@
 <p>This is our final project for SoftDes Spring 2015 at Olin. We enjoy using Rainmeter on Windows, and we found that Ubuntu lacks that functionality, so we decided to add it ourselves.</p>
 
 <h3>
+<a id="architecture" class="anchor" href="#how-to-use-it" aria-hidden="true"><span class="octicon octicon-link"></span></a>Code Architecture</h3>
+
+<p>Our wrote our code in an object oriented way. We have a main wrapper file called 'firecracker.py'</p>
+
+<p>Then we have a file called 'firecracker_utils.py' where all of the good stuff is encoded. We can represent this structure using a simple UML:</p>
+
+<img src="https://raw.githubusercontent.com/joeylmaalouf/firecracker/gh-pages/images/UML.PNG">
+
+<p> Our FCManager class has FCWindow elements. Each of these elements have a FCItem attribute, where all of the information from the configuration file is parsed. It is then represented in a PyGTK Window, which has a transparent background and is set to lie on top of the computer’s wallpaper. The information is stored in config files that are generated through a file generator GUI we developed.</p>
+
+<h3>
 <a id="narrative" class="anchor" href="#narrative" aria-hidden="true"><span class="octicon octicon-link"></span></a>Our Developmental Process</h3>
 
 <p>Rainmeter offers customization tools by the user editting the configuration files themselves, in a simple 'language' that is easy to understand. We started with a simlilar method. We wrote configuration files with what we thought was simple diction and stucture. </p>
